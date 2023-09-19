@@ -1,3 +1,4 @@
+import Footer from "@/components/footer";
 import Navbar from "@/components/navbar";
 import { Outlet } from "react-router-dom";
 
@@ -5,9 +6,10 @@ const View = () => {
   return (
     <div>
       <Navbar />
-      <section className="w-3/4 m-auto">
+      <section className="w-full m-auto">
         <Outlet />
       </section>
+      <Footer />
     </div>
   );
 };

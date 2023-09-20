@@ -1,6 +1,6 @@
 import { LogoDTU1, clockIcon, locationIcon, dotEmpty, dotRed } from "@/assets";
 import { navbarItems, socialIcons } from "@/contains";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const View = () => {
   const pathName = useLocation().pathname;
@@ -32,13 +32,14 @@ const View = () => {
               ) : (
                 <img src={dotEmpty} />
               )}
-              <span
+              <Link
+                to={item.path}
                 className={`text-[16px] ${
                   item.path === pathName ? "text-[#A62823]" : ""
                 }`}
               >
                 {item.text}
-              </span>
+              </Link>
             </div>
           ))}
         </div>

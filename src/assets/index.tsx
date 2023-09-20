@@ -21,6 +21,7 @@ import logo3 from "./logo3.png";
 import logo4 from "./logo4.png";
 import commaIcon from "./VectorComma.svg";
 import commaVerseIcon from "./VectorCommaVerse.svg";
+import bannerRank from "./rankBanner.png";
 
 export {
   LogoDTU1,
@@ -46,4 +47,5 @@ export {
   logo4,
   commaIcon,
   commaVerseIcon,
+  bannerRank,
 };

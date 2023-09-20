@@ -2,6 +2,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import "./App.css";
 import AppLayout from "./layouts/app";
 import Home from "./pages/home";
+import Notification from "./pages/notification";
 
 function App() {
   const router = createBrowserRouter([
@@ -11,6 +12,10 @@ function App() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/thong-bao",
+          element: <Notification />,
         },
       ],
     },

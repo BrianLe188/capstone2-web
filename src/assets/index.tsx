@@ -22,6 +22,13 @@ import logo4 from "./logo4.png";
 import commaIcon from "./VectorComma.svg";
 import commaVerseIcon from "./VectorCommaVerse.svg";
 import bannerRank from "./rankBanner.png";
+import languageIcon from "./languageIcon.svg";
+import menuIcon from "./menuIcon.svg";
+import plusIcon from "./plusIcon.svg";
+import sendIcon from "./sendIcon.svg";
+import settingIcon from "./settingIcon.svg";
+import trashIcon from "./trashIcon.svg";
+import uploadIcon from "./uploadIcon.svg";
 
 export {
   LogoDTU1,
@@ -48,4 +55,11 @@ export {
   commaIcon,
   commaVerseIcon,
   bannerRank,
+  languageIcon,
+  menuIcon,
+  plusIcon,
+  sendIcon,
+  settingIcon,
+  trashIcon,
+  uploadIcon,
 };

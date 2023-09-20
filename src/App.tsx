@@ -3,6 +3,7 @@ import "./App.css";
 import AppLayout from "./layouts/app";
 import Home from "./pages/home";
 import Notification from "./pages/notification";
+import ChatBox from "./pages/chatBox";
 
 function App() {
   const router = createBrowserRouter([
@@ -16,6 +17,10 @@ function App() {
         {
           path: "/thong-bao",
           element: <Notification />,
+        },
+        {
+          path: "/admissions-chat-gpt",
+          element: <ChatBox />,
         },
       ],
     },

@@ -8,6 +8,10 @@ import {
   logo2,
   logo3,
   logo4,
+  trashIcon,
+  languageIcon,
+  settingIcon,
+  uploadIcon,
 } from "@/assets";
 
 export const navbarItems = [
@@ -21,15 +25,15 @@ export const navbarItems = [
   },
   {
     text: "TUYỂN SINH CHAT-GPT",
-    path: "/tuyen-sinh-chat-gpt",
+    path: "/admissions-chat-gpt",
   },
   {
     text: "NGÀNH NGHỀ ĐÀO TẠO",
-    path: "/nganh-nghe-dao-tao",
+    path: "/",
   },
   {
     text: "XẾP HẠNG",
-    path: "/xep-hang",
+    path: "/",
   },
 ];
 
@@ -61,22 +65,22 @@ export const navigationItems = [
   {
     icon: aiIcon,
     text: "XÉT TUYỂN THẲNG",
-    path: "/xet-tuyen-thang",
+    path: "/",
   },
   {
     icon: aiIcon,
     text: "XÉT KẾT QUẢ THI THPT",
-    path: "/xet-ket-qua-thi-thpt",
+    path: "/",
   },
   {
     icon: aiIcon,
     text: "XÉT KẾT QUẢ THI ĐÁNH GIÁ NĂNG LỰC",
-    path: "/xet-ket-qua-thi-danh-gia-nang-luc",
+    path: "/",
   },
   {
     icon: aiIcon,
     text: "TRÒ CHUYỆN CÙNG GPT VỀ XÉT TUYỂN",
-    path: "/tuyen-sinh-chat-gpt",
+    path: "/admissions-chat-gpt",
   },
 ];
 
@@ -148,5 +152,24 @@ export const chuongTrinhHocBtn = [
   {
     text: "DU HỌC & DU HỌC NƯỚC NGOÀI",
     state: "studyAbroad",
+  },
+];
+
+export const optionChatBox = [
+  {
+    icon: trashIcon,
+    text: "Xoá tất cả các đoạn hội thoại",
+  },
+  {
+    icon: languageIcon,
+    text: "Thay đổi ngôn ngữ",
+  },
+  {
+    icon: settingIcon,
+    text: "Cài đặt",
+  },
+  {
+    icon: uploadIcon,
+    text: "Tải lên file dữ liệu",
   },
 ];

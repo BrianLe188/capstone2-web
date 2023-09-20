@@ -17,7 +17,7 @@ export const navbarItems = [
   },
   {
     text: "THÔNG BÁO",
-    path: "/thong-bao",
+    path: "/notification",
   },
   {
     text: "TUYỂN SINH CHAT-GPT",

@@ -14,7 +14,7 @@ function App() {
           element: <Home />,
         },
         {
-          path: "/thong-bao",
+          path: "/notification",
           element: <Notification />,
         },
       ],

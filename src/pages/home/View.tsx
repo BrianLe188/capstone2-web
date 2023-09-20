@@ -1,5 +1,4 @@
 import {
-  arrowRightTop,
   banner,
   banner2,
   bannerCHTG,
@@ -16,6 +15,7 @@ import {
   thongTinTuyenSinh,
 } from "@/contains";
 import { useState } from "react";
+import Module from "./components/module";
 
 const View = () => {
   const [studyProgram, setStudyProgram] = useState("international");
@@ -26,19 +26,12 @@ const View = () => {
       <img src={banner} alt="" />
 
       {/* Navigation */}
-      <div className="flex h-[194px] bg-[#000842] items-center gap-[20px] px-[15px]">
-        {navigationItems.map((item, index) => (
-          <div
-            className="bg-[#A62823] h-[111px] w-[320px] p-[7px] flex items-center rounded-[13px] gap-[10px]"
-            key={index}
-          >
-            <div className="bg-white flex flex-1 items-center rounded-[13px] h-[100px] py-[20px] px-[5px]">
-              <img src={item.icon} />
-              <span className="text-[#A62823]">{item.text}</span>
-            </div>
-            <img src={arrowRightTop} className="w-[30px] h-[30px]" />
-          </div>
-        ))}
+      <div className="bg-[#000842]">
+        <div className="flex h-[194px] items-center gap-5 w-5/6 m-auto">
+          {navigationItems.map((item, index) => (
+            <Module key={index} item={item} />
+          ))}
+        </div>
       </div>
 
       {/* Thong tin tuyen sinh */}

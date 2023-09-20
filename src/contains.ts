@@ -29,11 +29,11 @@ export const navbarItems = [
   },
   {
     text: "NGÀNH NGHỀ ĐÀO TẠO",
-    path: "/",
+    path: "/training",
   },
   {
     text: "XẾP HẠNG",
-    path: "/",
+    path: "/ranking",
   },
 ];
 

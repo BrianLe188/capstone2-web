@@ -22,30 +22,40 @@ const View = () => {
           ))}
         </div>
       </div>
-      <div className="h-[138px] bg-[#303030] text-white flex place-content-end items-center gap-[90px]">
-        <img src={LogoDTU1} className="cursor-pointer" />
-        <div className="flex gap-[30px]">
-          {navbarItems.map((item, index) => (
-            <div key={index} className="flex items-center gap-2 cursor-pointer">
-              {item.path === pathName ? (
-                <img src={dotRed} />
-              ) : (
-                <img src={dotEmpty} />
-              )}
-              <Link
-                to={item.path}
-                className={`text-[16px] ${
-                  item.path === pathName ? "text-[#A62823]" : ""
-                }`}
+      <div className="bg-[#303030] h-28 flex items-center">
+        <div className=" text-white flex items-center gap-10 w-3/4 m-auto justify-between">
+          <img src={LogoDTU1} className="cursor-pointer" />
+          <div className="flex gap-[30px]">
+            {navbarItems.map((item, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-2 cursor-pointer"
               >
-                {item.text}
-              </Link>
-            </div>
-          ))}
+                {item.path === pathName ? (
+                  <img src={dotRed} />
+                ) : (
+                  <img src={dotEmpty} />
+                )}
+                <Link
+                  to={item.path}
+                  className={`text-sm ${
+                    item.path === pathName ? "text-[#A62823]" : ""
+                  }`}
+                >
+                  {item.text}
+                </Link>
+              </div>
+            ))}
+          </div>
         </div>
-        <div className="cursor-pointer">ENG / VIE</div>
-        <div className="rounded-l-[16px] bg-[#A62823] h-[42px] flex items-center px-[10px] cursor-pointer">
-          Đăng ký
+        <div className="flex items-center gap-10 absolute right-0 text-sm">
+          <div className="cursor-pointer">ENG / VIE</div>
+          <button
+            type="button"
+            className="rounded-l-[16px] bg-[#A62823] h-[42px] flex items-center px-[10px] cursor-pointer"
+          >
+            Đăng ký
+          </button>
         </div>
       </div>
     </div>

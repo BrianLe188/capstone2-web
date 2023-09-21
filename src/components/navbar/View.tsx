@@ -1,9 +1,10 @@
 import { LogoDTU1, clockIcon, locationIcon, dotEmpty, dotRed } from "@/assets";
 import { navbarItems, socialIcons } from "@/contains";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const View = () => {
   const pathName = useLocation().pathname;
+  const navigation = useNavigate();
 
   return (
     <div className="">
@@ -48,11 +49,11 @@ const View = () => {
             ))}
           </div>
         </div>
-        <div className="flex items-center gap-10 absolute right-0 text-sm">
-          <div className="cursor-pointer">ENG / VIE</div>
+        <div className="absolute right-0 text-sm">
           <button
             type="button"
-            className="rounded-l-[16px] bg-[#A62823] h-[42px] flex items-center px-[10px] cursor-pointer"
+            className="rounded-l-[16px] bg-[#A62823] h-[42px] flex items-center px-[10px] cursor-pointer text-white"
+            onClick={() => navigation("/login")}
           >
             Đăng ký
           </button>

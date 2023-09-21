@@ -4,6 +4,7 @@ import AppLayout from "./layouts/app";
 import Home from "./pages/home";
 import Notification from "./pages/notification";
 import ChatBox from "./pages/chatBox";
+import Login from "@/pages/login";
 
 function App() {
   const router = createBrowserRouter([
@@ -23,6 +24,10 @@ function App() {
           element: <ChatBox />,
         },
       ],
+    },
+    {
+      path: "/login",
+      element: <Login />,
     },
   ]);
 

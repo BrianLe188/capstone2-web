@@ -29,8 +29,22 @@ import sendIcon from "./sendIcon.svg";
 import settingIcon from "./settingIcon.svg";
 import trashIcon from "./trashIcon.svg";
 import uploadIcon from "./uploadIcon.svg";
+import eyeIcon from "./eyeIcon.svg";
+import gmailLogo from "./gmailLogo.png";
+import lockIcon from "./lockIcon.svg";
+import logoDTU3 from "./logoDTU3.png";
+import userIcon from "./userIcon.svg";
+import lockIconRed from "./lockIconRed.svg";
+import userIconRed from "./userIconRed.svg";
 
 export {
+  eyeIcon,
+  lockIconRed,
+  userIconRed,
+  lockIcon,
+  logoDTU3,
+  userIcon,
+  gmailLogo,
   LogoDTU1,
   facebookIcon,
   instagramIcon,

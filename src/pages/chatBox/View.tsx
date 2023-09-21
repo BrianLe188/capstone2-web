@@ -65,7 +65,7 @@ const ChatBox = () => {
             <div className="bg-[#cccccc] flex mx-[30px] items-center rounded-[6px] px-[15px] py-[10px] justify-between">
               <input
                 type="text"
-                className="bg-transparent outline-none text-black"
+                className="bg-transparent outline-none text-black flex-1"
               />
               <img src={sendIcon} className="cursor-pointer" />
             </div>

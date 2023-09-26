@@ -1,14 +1,29 @@
 import { banner, menuIcon, plusIcon, sendIcon } from "@/assets";
 import { optionChatBox } from "@/contains";
+import { useState } from "react";
 
 const ChatBox = () => {
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState<String[]>([]);
+
+  const handleSubmit = () => {
+    setMessages([...messages, message]);
+    setMessage("");
+  };
+
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSubmit();
+    }
+  };
+
   return (
     <div>
       <h1 className="text-[#A62823] text-center text-[40px] font-medium">
         GIẢI ĐÁP THẮC MẮC TUYỂN SINH CÙNG <br />{" "}
         <span className="font-bold text-[52px]">GPT-DTU</span>
       </h1>
-      <div className="flex min-h-screen">
+      <div className="flex h-screen relative">
         <div className="bg-[#2C2B2D] w-1/5 text-[#cccccc] flex flex-col">
           <div className="p-[15px] border-solid border-[#cccccc] border-b-[1px]">
             <div className="flex justify-between">
@@ -37,37 +52,52 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col flex-1 text-white">
-          <div className="bg-[#3d3d3d] flex justify-end p-[30px] pl-[150px] gap-[20px]">
-            <span className="text-right">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-              Suspendisse varius enim in eros elementum tristique. Duis cursus,
-              mi quis viverra ornare, eros dolor interdum nulla, ut commodo diam
-              libero vitae erat.
-            </span>
-            <img
-              src={banner}
-              className="w-[70px] h-[70px] rounded-full object-cover"
-            />
-          </div>
-          <div className="bg-[#1B1B1B] flex flex-col justify-between flex-1 p-[30px]">
-            <div className="flex pr-[150px] gap-[20px]">
-              <div className="text-white bg-[#A62823] flex rounded-full w-[70px] h-[70px] items-center justify-center">
-                GPT
+        <div className="flex flex-col flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto">
+          {messages.map((item, index) => (
+            <>
+              <div
+                className={
+                  "flex gap-[20px] p-[30px]" +
+                  (index % 2 === 0
+                    ? " pl-[150px] bg-[#3d3d3d] justify-end"
+                    : " pr-[150px]")
+                }
+              >
+                {index % 2 === 0 ? (
+                  <>
+                    <span className="text-right">{item}</span>
+                    <img
+                      src={banner}
+                      className="w-[70px] h-[70px] rounded-full object-cover"
+                    />
+                  </>
+                ) : (
+                  <>
+                    <div className="text-white bg-[#A62823] flex rounded-full w-[70px] h-[70px] items-center justify-center">
+                      GPT
+                    </div>
+                    <span className="flex-1">{item}</span>
+                  </>
+                )}
               </div>
-              <span className="flex-1">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                Suspendisse varius enim in eros elementum tristique. Duis
-                cursus, mi quis viverra ornare, eros dolor interdum nulla, ut
-                commodo diam libero vitae erat.
-              </span>
-            </div>
-            <div className="bg-[#cccccc] flex mx-[30px] items-center rounded-[6px] px-[15px] py-[10px] justify-between">
+            </>
+          ))}
+
+          {/* chat input */}
+          <div className="absolute w-4/5 bottom-6 right-0 px-[30px]">
+            <div className="bg-[#cccccc] flex items-center rounded-[6px] px-[15px] py-[10px]">
               <input
                 type="text"
                 className="bg-transparent outline-none text-black flex-1"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={(e) => handleEnterPress(e)}
               />
-              <img src={sendIcon} className="cursor-pointer" />
+              <img
+                src={sendIcon}
+                className="cursor-pointer"
+                onClick={() => handleSubmit()}
+              />
             </div>
           </div>
         </div>

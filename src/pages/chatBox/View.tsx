@@ -2,13 +2,21 @@ import { banner, menuIcon, plusIcon, sendIcon } from "@/assets";
 import { optionChatBox } from "@/contains";
 import { useState } from "react";
 
+interface IMessage {
+  type: "ai" | "user";
+  content: string;
+}
+
 const ChatBox = () => {
-  const [message, setMessage] = useState("");
-  const [messages, setMessages] = useState<String[]>([]);
+  const [message, setMessage] = useState<IMessage>({
+    type: "user",
+    content: "",
+  });
+  const [messages, setMessages] = useState<IMessage[]>([]);
 
   const handleSubmit = () => {
     setMessages([...messages, message]);
-    setMessage("");
+    setMessage({ type: "user", content: "" });
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -65,7 +73,7 @@ const ChatBox = () => {
               >
                 {index % 2 === 0 ? (
                   <>
-                    <span className="text-right">{item}</span>
+                    <span className="text-right">{item.content}</span>
                     <img
                       src={banner}
                       className="w-[70px] h-[70px] rounded-full object-cover"
@@ -76,7 +84,7 @@ const ChatBox = () => {
                     <div className="text-white bg-[#A62823] flex rounded-full w-[70px] h-[70px] items-center justify-center">
                       GPT
                     </div>
-                    <span className="flex-1">{item}</span>
+                    <span className="flex-1">{item.content}</span>
                   </>
                 )}
               </div>
@@ -89,8 +97,10 @@ const ChatBox = () => {
               <input
                 type="text"
                 className="bg-transparent outline-none text-black flex-1"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
+                value={message.content}
+                onChange={(e) =>
+                  setMessage({ type: "user", content: e.target.value })
+                }
                 onKeyDown={(e) => handleEnterPress(e)}
               />
               <img

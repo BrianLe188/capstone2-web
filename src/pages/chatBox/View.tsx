@@ -1,22 +1,20 @@
-import { banner, menuIcon, plusIcon, sendIcon } from "@/assets";
+import { menuIcon, plusIcon, sendIcon } from "@/assets";
 import { optionChatBox } from "@/contains";
 import { useState } from "react";
-
-interface IMessage {
-  type: "ai" | "user";
-  content: string;
-}
+import { EMessageType } from "@/utils/enums";
+import { useAppDispatch, useAppSelector } from "@/redux/hooks";
+import { addMessage } from "@/redux/chat/chat.slice";
+import { chatSelector } from "@/redux/selectors";
+import Message from "@/components/message";
 
 const ChatBox = () => {
-  const [message, setMessage] = useState<IMessage>({
-    type: "user",
-    content: "",
-  });
-  const [messages, setMessages] = useState<IMessage[]>([]);
+  const [message, setMessage] = useState("");
+  const dispatch = useAppDispatch();
+  const { advises: messages } = useAppSelector(chatSelector);
 
   const handleSubmit = () => {
-    setMessages([...messages, message]);
-    setMessage({ type: "user", content: "" });
+    dispatch(addMessage({ type: EMessageType.USER, content: message }));
+    setMessage("");
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -60,47 +58,17 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-col flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto">
-          {messages.map((item, index) => (
-            <>
-              <div
-                className={
-                  "flex gap-[20px] p-[30px]" +
-                  (index % 2 === 0
-                    ? " pl-[150px] bg-[#3d3d3d] justify-end"
-                    : " pr-[150px]")
-                }
-              >
-                {index % 2 === 0 ? (
-                  <>
-                    <span className="text-right">{item.content}</span>
-                    <img
-                      src={banner}
-                      className="w-[70px] h-[70px] rounded-full object-cover"
-                    />
-                  </>
-                ) : (
-                  <>
-                    <div className="text-white bg-[#A62823] flex rounded-full w-[70px] h-[70px] items-center justify-center">
-                      GPT
-                    </div>
-                    <span className="flex-1">{item.content}</span>
-                  </>
-                )}
-              </div>
-            </>
+        <div className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 overflow-auto">
+          {messages.map((item) => (
+            <Message message={item} />
           ))}
-
-          {/* chat input */}
-          <div className="absolute w-4/5 bottom-6 right-0 px-[30px]">
+          <div className="absolute bottom-0 p-5 w-4/5 right-0 px-[30px] bg-[#1b1b1b]">
             <div className="bg-[#cccccc] flex items-center rounded-[6px] px-[15px] py-[10px]">
               <input
                 type="text"
                 className="bg-transparent outline-none text-black flex-1"
-                value={message.content}
-                onChange={(e) =>
-                  setMessage({ type: "user", content: e.target.value })
-                }
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
                 onKeyDown={(e) => handleEnterPress(e)}
               />
               <img

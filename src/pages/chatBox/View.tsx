@@ -58,7 +58,7 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <div className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 overflow-auto">
+        <div className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
           {messages.map((item) => (
             <Message message={item} />
           ))}

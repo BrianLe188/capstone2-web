@@ -19,11 +19,11 @@ function App() {
           path: "/notification",
           element: <Notification />,
         },
-        {
-          path: "/admissions-chat-gpt",
-          element: <ChatBox />,
-        },
       ],
+    },
+    {
+      path: "/admissions-chat-gpt",
+      element: <ChatBox />,
     },
     {
       path: "/login",

@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addMessage } from "@/redux/chat/chat.slice";
 import { chatSelector } from "@/redux/selectors";
 import Message from "@/components/message";
+import ScrollToBottom from "react-scroll-to-bottom";
 
 const ChatBox = () => {
   const [message, setMessage] = useState("");
@@ -58,11 +59,11 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <div className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
+        <ScrollToBottom className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
           {messages.map((item) => (
             <Message message={item} />
           ))}
-          <div className="absolute bottom-0 p-5 w-4/5 right-0 px-[30px] bg-[#1b1b1b]">
+          <div className="absolute bottom-0 p-5 w-full right-0 px-[30px] bg-[#1b1b1b]">
             <div className="bg-[#cccccc] flex items-center rounded-[6px] px-[15px] py-[10px]">
               <input
                 type="text"
@@ -78,7 +79,7 @@ const ChatBox = () => {
               />
             </div>
           </div>
-        </div>
+        </ScrollToBottom>
       </div>
     </div>
   );

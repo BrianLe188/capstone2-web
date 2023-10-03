@@ -26,10 +26,6 @@ const ChatBox = () => {
 
   return (
     <div>
-      <h1 className="text-[#A62823] text-center text-[40px] font-medium">
-        GIẢI ĐÁP THẮC MẮC TUYỂN SINH CÙNG <br />{" "}
-        <span className="font-bold text-[52px]">GPT-DTU</span>
-      </h1>
       <div className="flex h-screen relative">
         <div className="bg-[#2C2B2D] w-1/5 text-[#cccccc] flex flex-col">
           <div className="p-[15px] border-solid border-[#cccccc] border-b-[1px]">
@@ -59,7 +55,11 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <ScrollToBottom className="flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
+        <ScrollToBottom className="relative flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
+          <h1 className="text-[#A62823] text-center text-[40px] font-medium">
+            GIẢI ĐÁP THẮC MẮC TUYỂN SINH CÙNG <br />{" "}
+            <span className="font-bold text-[52px]">GPT-DTU</span>
+          </h1>
           {messages.map((item) => (
             <Message message={item} />
           ))}

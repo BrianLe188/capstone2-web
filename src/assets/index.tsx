@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import LogoDTU1 from "./logo-dtu1.png";
 import facebookIcon from "./FacebookIcon.svg";
 import instagramIcon from "./InstagramIcon.svg";
@@ -36,6 +37,7 @@ import logoDTU3 from "./logoDTU3.png";
 import userIcon from "./userIcon.svg";
 import lockIconRed from "./lockIconRed.svg";
 import userIconRed from "./userIconRed.svg";
+import documentIcon from "./document.svg";
 
 export {
   eyeIcon,
@@ -76,4 +78,5 @@ export {
   settingIcon,
   trashIcon,
   uploadIcon,
+  documentIcon,
 };

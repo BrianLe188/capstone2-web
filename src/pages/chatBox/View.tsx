@@ -76,7 +76,7 @@ const ChatBox = () => {
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Enter") {
+    if (e.key === "Enter" && message) {
       handleSubmit();
     }
   };

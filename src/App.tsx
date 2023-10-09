@@ -7,7 +7,8 @@ import ChatBox from "./pages/chatBox";
 import Login from "@/pages/login";
 import AcademicForm from "@/pages/academicForm";
 import AdmissionUniversityForm from "@/pages/admissionUniversityForm";
-
+import ResultHighschoolForm from "@/pages/resultHighschoolForm/View";
+import ResultCompetencyForm from "@/pages/resultCompetencyForm/View";
 function App() {
   const router = createBrowserRouter([
     {
@@ -28,6 +29,18 @@ function App() {
         {
           path: "/direct-admission-to-university",
           element: <AdmissionUniversityForm />,
+        },
+        {
+          path: "/admission-based-on-highschool-result",
+          element: <ResultHighschoolForm />,
+        },
+        {
+          path: "/admission-based-on-highschool-result",
+          element: <ResultHighschoolForm />,
+        },
+        {
+          path: "/admission-based-on-competency-test-results",
+          element: <ResultCompetencyForm />,
         },
       ],
     },

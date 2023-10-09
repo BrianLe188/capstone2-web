@@ -6,6 +6,7 @@ import Notification from "./pages/notification";
 import ChatBox from "./pages/chatBox";
 import Login from "@/pages/login";
 import AcademicForm from "@/pages/academicForm";
+import AdmissionUniversityForm from "@/pages/admissionUniversityForm";
 
 function App() {
   const router = createBrowserRouter([
@@ -25,8 +26,8 @@ function App() {
           element: <AcademicForm />,
         },
         {
-          path: "/notification",
-          element: <Notification />,
+          path: "/direct-admission-to-university",
+          element: <AdmissionUniversityForm />,
         },
       ],
     },

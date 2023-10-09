@@ -1,32 +1,43 @@
-import "./academicForm.css";
+import "./admissionUniversityForm.css";
 
-const AcademicForm = () => {
+const factorArray = [
+  {
+    text: "Tham dự đội tuyển thi Olympic quốc tế, cuộc thi KHKT quốc tế. Xét giải các năm 2021, 2022, 2023",
+  },
+  {
+    text: "Giải học sinh giỏi Nhất, Nhỉ, Ba, Khuyến khích cấp Quốc gia; cấp tỉnh, thành phố trực thuộc Trung ương.",
+  },
+  {
+    text: "Giải Nhất, Nhì, Ba, Khuyến khích trong Cuộc thì Khoa học Kỹ thuật cấp quốc gia: cấp tỉnh, thành phố trực thuộc Trung ương.",
+  },
+  {
+    text: "Giải Nhất, Nhì, Ba, khuyến khích tại các kỷ thi tay nghề khu vực ASEAN, thi tay nghề quốc tể.",
+  },
+  {
+    text: 'Tham gia Vòng thi tuần trong cuộc thi "Đường lên đỉnh 0lympia" trên Đài truyền hình Việt Nam.',
+  },
+  {
+    text: "Xét tuyển thẳng đối với các học sinh tốt nghiệp các trưởng THPT Chuyên của tỉnh, thành phố trực thuộc Trung ương (trừ khối ngành Khoa học Sức khỏe).",
+  },
+  {
+    text: "Xét tuyển thẳng Thí sinh là thành viên đội tuyển quốc gia,",
+  },
+  {
+    text: "Xết tuyển thẳng Thí sinh là người nước ngoài tốt nghiệp THPT hoặc tương đương THPT của Việt Nam (trừ khối ngành Khoa học Sức khỏe).",
+  },
+];
+
+const AdmissionUniversityForm = () => {
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
-        ĐĂNG KÝ XÉT TUYỂN BẰNG HỌC BẠ THPT
+        ĐĂNG KÝ XÉT TUYỂN THẲNG VÀO ĐẠI HỌC
       </h1>
-
-      {/*  */}
-      <div className="flex flex-col gap-2">
-        <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
-          CHỌN PHƯƠNG ÁN XÉT TUYỂN
-        </h2>
-        <div className="flex gap-2">
-          <label htmlFor="">
-            Phương án xét tuyển (<span className="text-[#A9161C]">*</span>)
-          </label>
-          <div className="flex flex-col">
-            <select name="" id="">
-              <option value=""></option>
-            </select>
-            <span className="text-[#A9161C]">
-              Dựa vào Kết quả học tập năm Lớp 12; Lấy cột Trung bình cả năm của
-              3 môn xét tuyển
-            </span>
-          </div>
-        </div>
-      </div>
+      <span className="text-[#A9161C]">
+        Dưới đây là những thông tin xét tuyển thẳng Đại Học vào trường Đại Học
+        Duy Tân. Bạn vui lòng điền đầy đủ thông tin bên dưới để nhận được kết
+        quả mong đợi.
+      </span>
 
       {/*  */}
       <div className="flex flex-col gap-2">
@@ -97,16 +108,16 @@ const AcademicForm = () => {
             </div>
           </div>
         </div>
-        <div className="flex">
+        <div className="flex gap-2">
           <label htmlFor="">
             Nơi học THPT (<span className="text-[#A9161C]">*</span>)
           </label>
-          <div className="flex flex-col w-full gap-2">
-            <div className="flex flex-1 gap-2">
+          <div className="flex flex-col gap-2">
+            <div className="flex gap-2">
               <select name="" id="" className="flex-1">
                 <option value=""></option>
               </select>
-              <div className="flex flex-1 gap-2">
+              <div className="flex gap-2">
                 <label htmlFor="">
                   Trường THPT (<span className="text-[#A9161C]">*</span>)
                 </label>
@@ -122,7 +133,7 @@ const AcademicForm = () => {
           </div>
         </div>
         <div className="flex gap-2">
-          <div className="flex flex-1 gap-2">
+          <div className="flex gap-2">
             <label htmlFor="">
               Khu vực (<span className="text-[#A9161C]">*</span>)
             </label>
@@ -130,13 +141,26 @@ const AcademicForm = () => {
               <option value=""></option>
             </select>
           </div>
-          <div className="flex flex-1 gap-2">
+          <div className="flex gap-2">
             <label htmlFor="">
               Đối tượng (<span className="text-[#A9161C]">*</span>)
             </label>
             <select name="" id="" className="flex-1">
               <option value=""></option>
             </select>
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <label htmlFor="">
+            Đối tượng xét tuyển (<span className="text-[#A9161C]">*</span>)
+          </label>
+          <div className="flex flex-col gap-4">
+            {factorArray.map((item, index) => (
+              <div className="flex gap-2 items-center" key={index}>
+                <input type="radio" name="factor" id="" />
+                <label htmlFor="">{item.text}</label>
+              </div>
+            ))}
           </div>
         </div>
       </div>
@@ -146,94 +170,23 @@ const AcademicForm = () => {
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN ĐĂNG KÝ
         </h2>
-        <div className="flex">
-          <label htmlFor="">
-            Bậc học (<span className="text-[#A9161C]">*</span>)
-          </label>
-          <div className="flex flex-col w-full gap-2">
-            <div className="flex flex-1 gap-2">
-              <select name="" id="" className="flex-1">
-                <option value=""></option>
-              </select>
-              <div className="flex flex-1 gap-2">
-                <label htmlFor="">
-                  Ngành (<span className="text-[#A9161C]">*</span>)
-                </label>
-                <select name="" id="" className="flex-1">
-                  <option value=""></option>
-                </select>
-              </div>
-            </div>
-            <span>
-              (Ghi chú: Thí sinh được phép chuyển đổi ngành phù hợp sau 1 Học kỳ
-              đến 1 Năm học theo quy chế của Bộ giáo dục và Đào tạo..)
-            </span>
-          </div>
-        </div>
+
         <div className="flex gap-2">
           <label htmlFor="">
-            Môn học (<span className="text-[#A9161C]">*</span>)
+            Ngành đăng ký(<span className="text-[#A9161C]">*</span>)
           </label>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col">
             <select name="" id="">
               <option value=""></option>
             </select>
             <span>
-              Bạn vui lòng nhập kết quả học tập các môn tương ứng bên dưới:
+              (Ghi chú: thí sinh được phép chuyển đổi ngành phù hợp sau 1 Học kỳ
+              đến 1 Năm học theo quy chế của Bộ Giáo Dục và Đào Tạo.)
             </span>
           </div>
         </div>
-        <table>
-          <tr>
-            <td>Tổ hợp môn xét tuyển</td>
-            <td>Điểm trung bình cả năm lớp 12</td>
-          </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
-        </table>
-        <div className="flex gap-2">
-          <input type="checkbox" name="" id="" />
-          <label htmlFor="">Đã tốt nghiệp THPT</label>
-        </div>
-        <div className="flex gap-2">
-          <input type="checkbox" name="" id="" />
-          <label htmlFor="">
-            Bạn cũng có mong muốn Du học Nước ngoài hoặc Du học tại chỗ.
-          </label>
-        </div>
+
         <div className="flex gap-7">
-          <span className="w-1/4">
-            Tập tin đính kèm (<span className="text-[#A9161C]">*</span>) (Ảnh
-            kết quả học tập THPT (học bạ giấy/ học bạ điện tử))
-          </span>
           <div className="">
             <input type="file" name="" id="" />
           </div>
@@ -256,4 +209,4 @@ const AcademicForm = () => {
   );
 };
 
-export default AcademicForm;
+export default AdmissionUniversityForm;

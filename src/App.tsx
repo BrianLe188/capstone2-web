@@ -5,6 +5,7 @@ import Home from "./pages/home";
 import Notification from "./pages/notification";
 import ChatBox from "./pages/chatBox";
 import Login from "@/pages/login";
+import AcademicForm from "@/pages/academicForm";
 
 function App() {
   const router = createBrowserRouter([
@@ -14,6 +15,14 @@ function App() {
         {
           path: "/",
           element: <Home />,
+        },
+        {
+          path: "/notification",
+          element: <Notification />,
+        },
+        {
+          path: "/admission-based-on-academic-records",
+          element: <AcademicForm />,
         },
         {
           path: "/notification",

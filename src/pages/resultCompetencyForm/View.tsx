@@ -17,8 +17,6 @@ const ResultCompetencyForm = () => {
             Họ và tên (<span className="text-[#A9161C]">*</span>)
           </label>
           <input type="text" />
-          <input type="text" />
-          <input type="text" />
           <div className="flex gap-2 items-center">
             <input type="radio" name="gender" id="" />
             <label htmlFor="">Nam</label>
@@ -57,7 +55,7 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Hộ khẩu thường trú (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" class="grow" />
+          <input type="text" className="grow" />
           <span>(Ghi rõ tên tỉnh (thành phố), huyện (quận), xã (phường))</span>
         </div>
         <div className="flex">
@@ -107,7 +105,7 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Năm tốt nghiệp (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" class="grow" />
+          <input type="text" className="grow" />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
@@ -157,22 +155,24 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Mã hồ sơ đăng ký dự thi (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" class="grow" />
-          <span class="label">(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
+          <input type="text" className="grow" />
+          <span className="label">
+            (Nhập đầy đủ số nhà, tên đường, thôn/tổ)
+          </span>
         </div>
 
         <div className="flex gap-2">
           <label htmlFor="">
             Trường tổ chức thi (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" class="grow" />
+          <input type="text" className="grow" />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
             Kết quả thi đánh giá năng lực(
             <span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" class="grow" />
+          <input type="text" className="grow" />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
@@ -183,7 +183,9 @@ const ResultCompetencyForm = () => {
               <option value=""></option>
             </select>
           </div>
-          <span class="label">(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
+          <span className="label">
+            (Nhập đầy đủ số nhà, tên đường, thôn/tổ)
+          </span>
         </div>
 
         <div className="flex gap-7">

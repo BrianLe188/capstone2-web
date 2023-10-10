@@ -38,8 +38,6 @@ const AcademicForm = () => {
             Họ và tên (<span className="text-[#A9161C]">*</span>)
           </label>
           <input type="text" />
-          <input type="text" />
-          <input type="text" />
           <div className="flex gap-2 items-center">
             <input type="radio" name="gender" id="" />
             <label htmlFor="">Nam</label>

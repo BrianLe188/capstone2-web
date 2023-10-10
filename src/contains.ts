@@ -60,22 +60,22 @@ export const navigationItems = [
   {
     icon: aiIcon,
     text: "XÉT HỌC BẠ",
-    path: "/xet-hoc-ba",
+    path: "/admission-based-on-academic-records",
   },
   {
     icon: aiIcon,
     text: "XÉT TUYỂN THẲNG",
-    path: "/",
+    path: "/direct-admission-to-university",
   },
   {
     icon: aiIcon,
     text: "XÉT KẾT QUẢ THI THPT",
-    path: "/",
+    path: "/admission-based-on-highschool-result",
   },
   {
     icon: aiIcon,
     text: "XÉT KẾT QUẢ THI ĐÁNH GIÁ NĂNG LỰC",
-    path: "/",
+    path: "/admission-based-on-competency-test-results",
   },
   {
     icon: aiIcon,

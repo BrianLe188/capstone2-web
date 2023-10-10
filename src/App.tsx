@@ -35,10 +35,6 @@ function App() {
           element: <ResultHighschoolForm />,
         },
         {
-          path: "/admission-based-on-highschool-result",
-          element: <ResultHighschoolForm />,
-        },
-        {
           path: "/admission-based-on-competency-test-results",
           element: <ResultCompetencyForm />,
         },

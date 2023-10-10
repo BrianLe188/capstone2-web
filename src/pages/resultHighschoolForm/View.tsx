@@ -1,4 +1,6 @@
+import SelectLocation from "@/components/select-location";
 import "./resultHighschoolForm.css";
+import locations from "@/assets/locations.json";
 
 const ResultHighschoolForm = () => {
   return (
@@ -57,17 +59,21 @@ const ResultHighschoolForm = () => {
             Địa chỉ nhận giấy báo (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2 w-full">
-            <div className="flex gap-2 w-full">
-              <select name="" id="" className="w-1/3">
-                <option value=""></option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value=""></option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value=""></option>
-              </select>
-            </div>
+            <SelectLocation
+              data={
+                locations as {
+                  code: string;
+                  parent_code: string | null;
+                  name: string;
+                  type: string;
+                }[]
+              }
+              values={{
+                country: "",
+                district: "",
+                ward: "",
+              }}
+            />
             <div className="flex flex-col gap-2">
               <input type="text" />
               <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
@@ -80,17 +86,27 @@ const ResultHighschoolForm = () => {
           </label>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
-              <select name="" id="" className="flex-1">
-                <option value=""></option>
-              </select>
-              <div className="flex flex-1 gap-2">
-                <label htmlFor="">
-                  Trường THPT (<span className="text-[#A9161C]">*</span>)
-                </label>
-                <select name="" id="" className="flex-1">
-                  <option value=""></option>
-                </select>
-              </div>
+              <SelectLocation
+                data={
+                  locations as {
+                    code: string;
+                    parent_code: string | null;
+                    name: string;
+                    type: string;
+                  }[]
+                }
+                values={{
+                  country: "",
+                  district: "",
+                  ward: "",
+                }}
+              />
+            </div>
+            <div className="flex flex-1 gap-2">
+              <label htmlFor="">
+                Trường THPT (<span className="text-[#A9161C]">*</span>)
+              </label>
+              <input type="text" name="" id="" className="w-full" />
             </div>
             <span>
               (Ghi chú: nếu là thí sinh tự do thì bạn chọn trường thpt đã tốt

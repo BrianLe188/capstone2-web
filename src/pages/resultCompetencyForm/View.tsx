@@ -55,8 +55,20 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Hộ khẩu thường trú (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" className="grow" />
-          <span>(Ghi rõ tên tỉnh (thành phố), huyện (quận), xã (phường))</span>
+          <div className="flex flex-col gap-2 w-full">
+            <input type="text" className="grow" />
+            <div className="flex gap-2 w-full">
+              <select name="" id="" className="w-1/3">
+                <option value="">Chọn Tỉnh/Thành phố</option>
+              </select>
+              <select name="" id="" className="w-1/3">
+                <option value="">Chọn Quận/Huyện</option>
+              </select>
+              <select name="" id="" className="w-1/3">
+                <option value="">Chọn Phường/Xã</option>
+              </select>
+            </div>
+          </div>
         </div>
         <div className="flex">
           <label htmlFor="">
@@ -73,7 +85,7 @@ const ResultCompetencyForm = () => {
                   <br /> tương đương (<span className="text-[#A9161C]">*</span>)
                 </label>
                 <select name="" id="" className="flex-1">
-                  <option value=""></option>
+                  <option value="">Chọn trường THPT</option>
                 </select>
               </div>
             </div>
@@ -89,7 +101,7 @@ const ResultCompetencyForm = () => {
               Khu vực (<span className="text-[#A9161C]">*</span>)
             </label>
             <select name="" id="" className="flex-1">
-              <option value=""></option>
+              <option value="">---Chọn khu vực ưu tiên</option>
             </select>
           </div>
           <div className="flex flex-1 gap-2">
@@ -97,7 +109,7 @@ const ResultCompetencyForm = () => {
               Đối tượng (<span className="text-[#A9161C]">*</span>)
             </label>
             <select name="" id="" className="flex-1">
-              <option value=""></option>
+              <option value="">0 - Không ưu tiên</option>
             </select>
           </div>
         </div>
@@ -115,13 +127,13 @@ const ResultCompetencyForm = () => {
           <div className="flex flex-col gap-2 w-full">
             <div className="flex gap-2 w-full">
               <select name="" id="" className="w-1/3">
-                <option value=""></option>
+                <option value="">Chọn Tỉnh/Thành phố</option>
               </select>
               <select name="" id="" className="w-1/3">
-                <option value=""></option>
+                <option value="">Chọn Quận/Huyện</option>
               </select>
               <select name="" id="" className="w-1/3">
-                <option value=""></option>
+                <option value="">Chọn Phường/Xã</option>
               </select>
             </div>
             <div className="flex flex-col gap-2">
@@ -156,9 +168,7 @@ const ResultCompetencyForm = () => {
             Mã hồ sơ đăng ký dự thi (<span className="text-[#A9161C]">*</span>)
           </label>
           <input type="text" className="grow" />
-          <span className="label">
-            (Nhập đầy đủ số nhà, tên đường, thôn/tổ)
-          </span>
+          <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
         </div>
 
         <div className="flex gap-2">
@@ -180,12 +190,10 @@ const ResultCompetencyForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <select name="" id="">
-              <option value=""></option>
+              <option value="">---Chọn Ngành</option>
             </select>
           </div>
-          <span className="label">
-            (Nhập đầy đủ số nhà, tên đường, thôn/tổ)
-          </span>
+          <span className="grow">(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
         </div>
 
         <div className="flex gap-7">

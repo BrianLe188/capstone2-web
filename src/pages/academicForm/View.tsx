@@ -1,8 +1,41 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectLocation from "@/components/select-location";
 import "./academicForm.css";
 import locations from "@/assets/locations.json";
+import { useContext, useState } from "react";
+import { GlobalContext } from "@/contexts/global-context";
 
 const AcademicForm = () => {
+  const { genders } = useContext(GlobalContext);
+  const [details, setDetails] = useState({
+    fullName: null,
+    gender: null,
+    birthday: null,
+    cccd: null,
+    phonenumber: null,
+    email: null,
+    addressToReceiveAdmissionNotice: null,
+    area: null,
+    priority: null,
+    highschoolAddress: null,
+    majorId: null,
+    subjectOne: null,
+    subjectOneScore: null,
+    subjectTwo: null,
+    subjectTwoScore: null,
+    subjectThree: null,
+    subjectThreeScore: null,
+  });
+
+  const changeHandler = (name: string, value: any) => {
+    setDetails((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
+  console.log(details);
+
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
@@ -39,41 +72,64 @@ const AcademicForm = () => {
           <label htmlFor="">
             Họ và tên (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
-          <div className="flex gap-2 items-center">
-            <input type="radio" name="gender" id="" />
-            <label htmlFor="">Nam</label>
-          </div>
-          <div className="flex gap-2 items-center">
-            <input type="radio" name="gender" id="" />
-            <label htmlFor="">Nữ</label>
-          </div>
+          <input
+            value={details.fullName || ""}
+            type="text"
+            onChange={(e) => changeHandler("fullName", e.target.value)}
+          />
+          {genders.map((item) => (
+            <div className="flex gap-2 items-center">
+              <input
+                type="radio"
+                name="gender"
+                value={item.id}
+                onChange={(e) => changeHandler("gender", e.target.value)}
+              />
+              <label htmlFor="">{item.name}</label>
+            </div>
+          ))}
         </div>
         <div className="flex gap-2">
           <div className="flex gap-2">
             <label htmlFor="">
               Ngày sinh (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="date"
+              value={details.birthday || ""}
+              onChange={(e) => changeHandler("birthday", e.target.value)}
+            />
           </div>
           <div className="flex gap-2">
             <label htmlFor="">
               Số CMND/CCCD (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="text"
+              value={details.cccd || ""}
+              onChange={(e) => changeHandler("cccd", e.target.value)}
+            />
           </div>
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
             Số điện thoại (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={details.phonenumber || ""}
+            onChange={(e) => changeHandler("phonenumber", e.target.value)}
+          />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
             Email (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
+          <input
+            type="email"
+            value={details.email || ""}
+            onChange={(e) => changeHandler("email", e.target.value)}
+          />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">

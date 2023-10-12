@@ -16,3 +16,14 @@ export type FileType = {
   path: string;
   extension: EFILE;
 };
+
+export type Basic = {
+  id: number;
+  name: string;
+};
+
+export type Gender = Prettify<
+  {
+    candidates?: [];
+  } & Basic
+>;

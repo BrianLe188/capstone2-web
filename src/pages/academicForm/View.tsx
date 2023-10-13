@@ -1,13 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectLocation from "@/components/select-location";
 import "./academicForm.css";
 import locations from "@/assets/locations.json";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useMemo, useState } from "react";
 import { GlobalContext } from "@/contexts/global-context";
 
 const AcademicForm = () => {
-  const { genders } = useContext(GlobalContext);
-  const [details, setDetails] = useState({
+  const { genders, areas, priorities, subjectBlocks } =
+    useContext(GlobalContext);
+  const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
     gender: null,
     birthday: null,
@@ -26,6 +28,27 @@ const AcademicForm = () => {
     subjectThree: null,
     subjectThreeScore: null,
   });
+  const [targetSubjectBlock, setTargetSubjectBlock] = useState<string | null>(
+    null
+  );
+
+  const subjectInBlock: { id: string; name: string }[] = useMemo(
+    () =>
+      subjectBlocks.find((item) => item.id === (targetSubjectBlock as string))
+        ?.subjects || [],
+    [targetSubjectBlock]
+  );
+
+  useEffect(() => {
+    if (subjectInBlock) {
+      setDetails((state) => ({
+        ...state,
+        subjectOne: subjectInBlock[0]?.id,
+        subjectTwo: subjectInBlock[1]?.id,
+        subjectThree: subjectInBlock[2]?.id,
+      }));
+    }
+  }, [targetSubjectBlock]);
 
   const changeHandler = (name: string, value: any) => {
     setDetails((state) => ({
@@ -34,15 +57,11 @@ const AcademicForm = () => {
     }));
   };
 
-  console.log(details);
-
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
         ĐĂNG KÝ XÉT TUYỂN BẰNG HỌC BẠ THPT
       </h1>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           CHỌN PHƯƠNG ÁN XÉT TUYỂN
@@ -62,8 +81,6 @@ const AcademicForm = () => {
           </div>
         </div>
       </div>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN HỒ SƠ
@@ -197,22 +214,36 @@ const AcademicForm = () => {
             <label htmlFor="">
               Khu vực (<span className="text-[#A9161C]">*</span>)
             </label>
-            <select name="" id="" className="flex-1">
-              <option value=""></option>
+            <select
+              value={details.area || ""}
+              className="flex-1"
+              onChange={(e) => changeHandler("area", e.target.value)}
+            >
+              {areas.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex flex-1 gap-2">
             <label htmlFor="">
               Đối tượng (<span className="text-[#A9161C]">*</span>)
             </label>
-            <select name="" id="" className="flex-1">
-              <option value=""></option>
+            <select
+              value={details.priority || ""}
+              className="flex-1"
+              onChange={(e) => changeHandler("priority", e.target.value)}
+            >
+              {priorities.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
       </div>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN ĐĂNG KÝ
@@ -246,8 +277,15 @@ const AcademicForm = () => {
             Môn học (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2">
-            <select name="" id="">
-              <option value=""></option>
+            <select
+              value={targetSubjectBlock || ""}
+              onChange={(e) => setTargetSubjectBlock(e.target.value)}
+            >
+              {subjectBlocks.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
             <span>
               Bạn vui lòng nhập kết quả học tập các môn tương ứng bên dưới:
@@ -259,36 +297,31 @@ const AcademicForm = () => {
             <td>Tổ hợp môn xét tuyển</td>
             <td>Điểm trung bình cả năm lớp 12</td>
           </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <select name="" id="">
-                <option value=""></option>
-              </select>
-            </td>
-            <td>
-              <input type="text" />
-            </td>
-          </tr>
+          {subjectInBlock?.map((item, index) => (
+            <tr>
+              <td>
+                <input type="text" value={item.name || ""} disabled />
+              </td>
+              <td>
+                <input
+                  type="number"
+                  onChange={(e) => {
+                    switch (index) {
+                      case 0:
+                        changeHandler("subjectOneScore", e.target.value);
+                        break;
+                      case 1:
+                        changeHandler("subjectTwoScore", e.target.value);
+                        break;
+                      case 2:
+                        changeHandler("subjectThreeScore", e.target.value);
+                        break;
+                    }
+                  }}
+                />
+              </td>
+            </tr>
+          ))}
         </table>
         <div className="flex gap-2">
           <input type="checkbox" name="" id="" />

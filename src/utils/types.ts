@@ -11,19 +11,39 @@ export type Message = {
 };
 
 export type FileType = {
-  id: number;
+  id: string;
   name: string;
   path: string;
   extension: EFILE;
 };
 
 export type Basic = {
-  id: number;
+  id: string;
   name: string;
 };
 
 export type Gender = Prettify<
   {
     candidates?: [];
+  } & Basic
+>;
+
+export type Area = Prettify<
+  {
+    candidates?: [];
+  } & Basic
+>;
+
+export type Priority = Prettify<
+  {
+    candidates?: [];
+  } & Basic
+>;
+
+export type SubjectBlock = Prettify<
+  {
+    subjects: [];
+    basedOnHighSchoolExamResults: [];
+    basedOnHighSchoolTranscripts: [];
   } & Basic
 >;

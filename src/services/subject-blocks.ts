@@ -1,10 +1,10 @@
-import type { Gender } from "@/utils/types";
 import { request } from "./request";
+import type { SubjectBlock } from "@/utils/types";
 
-const getGenders = (): Promise<Array<Gender>> =>
+const getSubjectBlocks = (): Promise<Array<SubjectBlock>> =>
   new Promise((rs, rj) => {
     request()
-      .get("/admission/genders")
+      .get("/core/subject-blocks")
       .then(({ data }) => {
         if (data) {
           rs(data?.data);
@@ -15,8 +15,8 @@ const getGenders = (): Promise<Array<Gender>> =>
       });
   });
 
-const GenderService = {
-  getGenders,
+const SubjectBlockService = {
+  getSubjectBlocks,
 };
 
-export default GenderService;
+export default SubjectBlockService;

@@ -1,10 +1,10 @@
-import type { Gender } from "@/utils/types";
 import { request } from "./request";
+import type { Area } from "@/utils/types";
 
-const getGenders = (): Promise<Array<Gender>> =>
+const getAreas = (): Promise<Array<Area>> =>
   new Promise((rs, rj) => {
     request()
-      .get("/admission/genders")
+      .get("/admission/areas")
       .then(({ data }) => {
         if (data) {
           rs(data?.data);
@@ -15,8 +15,8 @@ const getGenders = (): Promise<Array<Gender>> =>
       });
   });
 
-const GenderService = {
-  getGenders,
+const AreaService = {
+  getAreas,
 };
 
-export default GenderService;
+export default AreaService;

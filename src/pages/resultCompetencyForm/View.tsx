@@ -1,6 +1,34 @@
+import SelectLocation from "@/components/select-location";
 import "./resultCompetencyForm.css";
+import locations from "@/assets/locations.json";
+import { useContext, useState } from "react";
+import { GlobalContext } from "@/contexts/global-context";
 
 const ResultCompetencyForm = () => {
+  const { genders, areas, priorities } = useContext(GlobalContext);
+  const [details, setDetails] = useState<Record<string, string | null>>({
+    fullName: null,
+    gender: null,
+    birthday: null,
+    placeOfBirth: null,
+    nation: null,
+    permanentResidence: null,
+    cccd: null,
+    phonenumber: null,
+    email: null,
+    area: null,
+    priority: null,
+    highschoolName: null,
+    graduationYear: null,
+  });
+
+  const changeHandler = (name: string, value: any) => {
+    setDetails((state) => ({
+      ...state,
+      [name]: value,
+    }));
+  };
+
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
@@ -16,28 +44,43 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Họ và tên (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
-          <div className="flex gap-2 items-center">
-            <input type="radio" name="gender" id="" />
-            <label htmlFor="">Nam</label>
-          </div>
-          <div className="flex gap-2 items-center">
-            <input type="radio" name="gender" id="" />
-            <label htmlFor="">Nữ</label>
-          </div>
+          <input
+            value={details.fullName || ""}
+            type="text"
+            onChange={(e) => changeHandler("fullName", e.target.value)}
+          />
+          {genders.map((item) => (
+            <div className="flex gap-2 items-center">
+              <input
+                type="radio"
+                name="gender"
+                value={item.id}
+                onChange={(e) => changeHandler("gender", e.target.value)}
+              />
+              <label htmlFor="">{item.name}</label>
+            </div>
+          ))}
         </div>
         <div className="flex gap-2">
           <div className="flex gap-2">
             <label htmlFor="">
               Ngày sinh (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="date"
+              value={details.birthday || ""}
+              onChange={(e) => changeHandler("birthday", e.target.value)}
+            />
           </div>
           <div className="flex gap-2">
             <label htmlFor="">
               Nơi sinh (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="text"
+              value={details.placeOfBirth || ""}
+              onChange={(e) => changeHandler("placeOfBirth", e.target.value)}
+            />
             <span>(Ghi Tỉnh hoặc Thành phố)</span>
           </div>
         </div>
@@ -45,28 +88,48 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Dân tộc (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={details.nation || ""}
+            onChange={(e) => changeHandler("nation", e.target.value)}
+          />
           <label htmlFor="">
             Số CMND/CCCD (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" />
+          <input
+            type="text"
+            value={details.cccd || ""}
+            onChange={(e) => changeHandler("cccd", e.target.value)}
+          />
         </div>
         <div className="flex flex-1 gap-2">
           <label htmlFor="">
             Hộ khẩu thường trú (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2 w-full">
-            <input type="text" className="grow" />
+            <input
+              type="text"
+              value={details.permanentResidence || ""}
+              onChange={(e) =>
+                changeHandler("permanentResidence", e.target.value)
+              }
+            />
             <div className="flex gap-2 w-full">
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Tỉnh/Thành phố</option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Quận/Huyện</option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Phường/Xã</option>
-              </select>
+              <SelectLocation
+                data={
+                  locations as {
+                    code: string;
+                    parent_code: string | null;
+                    name: string;
+                    type: string;
+                  }[]
+                }
+                values={{
+                  country: "",
+                  district: "",
+                  ward: "",
+                }}
+              />
             </div>
           </div>
         </div>
@@ -76,21 +139,37 @@ const ResultCompetencyForm = () => {
           </label>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
-              <select name="" id="" className="flex-1">
-                <option value=""></option>
-              </select>
-              <div className="flex flex-1 gap-2">
-                <label htmlFor="">
-                  Trường THPT hoặc
-                  <br /> tương đương (<span className="text-[#A9161C]">*</span>)
-                </label>
-                <select name="" id="" className="flex-1">
-                  <option value="">Chọn trường THPT</option>
-                </select>
-              </div>
+              <SelectLocation
+                data={
+                  locations as {
+                    code: string;
+                    parent_code: string | null;
+                    name: string;
+                    type: string;
+                  }[]
+                }
+                values={{
+                  country: "",
+                  district: "",
+                  ward: "",
+                }}
+              />
+            </div>
+            <div className="flex flex-1 gap-2">
+              <label htmlFor="">
+                Trường THPT (<span className="text-[#A9161C]">*</span>)
+              </label>
+              <input
+                type="text"
+                value={details.highschoolName || ""}
+                onChange={(e) =>
+                  changeHandler("highschoolName", e.target.value)
+                }
+                className="w-full"
+              />
             </div>
             <span>
-              (Ghi chú: nếu là thí sinh tự do thì bạn chọn trường THPT đã tốt
+              (Ghi chú: nếu là thí sinh tự do thì bạn chọn trường thpt đã tốt
               nghiệp trước đó.)
             </span>
           </div>
@@ -100,16 +179,32 @@ const ResultCompetencyForm = () => {
             <label htmlFor="">
               Khu vực (<span className="text-[#A9161C]">*</span>)
             </label>
-            <select name="" id="" className="flex-1">
-              <option value="">---Chọn khu vực ưu tiên</option>
+            <select
+              value={details.area || ""}
+              className="flex-1"
+              onChange={(e) => changeHandler("area", e.target.value)}
+            >
+              {areas.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
           <div className="flex flex-1 gap-2">
             <label htmlFor="">
               Đối tượng (<span className="text-[#A9161C]">*</span>)
             </label>
-            <select name="" id="" className="flex-1">
-              <option value="">0 - Không ưu tiên</option>
+            <select
+              value={details.priority || ""}
+              className="flex-1"
+              onChange={(e) => changeHandler("priority", e.target.value)}
+            >
+              {priorities.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
         </div>
@@ -117,7 +212,12 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Năm tốt nghiệp (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" className="grow" />
+          <input
+            type="text"
+            value={details.graduationYear || ""}
+            onChange={(e) => changeHandler("graduationYear", e.target.value)}
+            className="grow"
+          />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
@@ -126,15 +226,21 @@ const ResultCompetencyForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <div className="flex gap-2 w-full">
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Tỉnh/Thành phố</option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Quận/Huyện</option>
-              </select>
-              <select name="" id="" className="w-1/3">
-                <option value="">Chọn Phường/Xã</option>
-              </select>
+              <SelectLocation
+                data={
+                  locations as {
+                    code: string;
+                    parent_code: string | null;
+                    name: string;
+                    type: string;
+                  }[]
+                }
+                values={{
+                  country: "",
+                  district: "",
+                  ward: "",
+                }}
+              />
             </div>
             <div className="flex flex-col gap-2">
               <input type="text" />
@@ -147,13 +253,21 @@ const ResultCompetencyForm = () => {
             <label htmlFor="">
               Điện thoại (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="text"
+              value={details.phonenumber || ""}
+              onChange={(e) => changeHandler("phonenumber", e.target.value)}
+            />
           </div>
           <div className="flex gap-2">
             <label htmlFor="">
               Email (<span className="text-[#A9161C]">*</span>)
             </label>
-            <input type="text" />
+            <input
+              type="email"
+              value={details.email || ""}
+              onChange={(e) => changeHandler("email", e.target.value)}
+            />
           </div>
         </div>
       </div>

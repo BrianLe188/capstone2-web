@@ -2,12 +2,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectLocation from "@/components/select-location";
 import "./academicForm.css";
-import locations from "@/assets/locations.json";
-import { useContext, useEffect, useMemo, useState } from "react";
+import locations from "@/assets/locations";
+import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { GlobalContext } from "@/contexts/global-context";
+import { ELEVEL } from "@/utils/enums";
+import { toast } from "react-toastify";
+import AdmissionService from "@/services/admission";
 
 const AcademicForm = () => {
-  const { genders, areas, priorities, subjectBlocks } =
+  const { genders, areas, priorities, subjectBlocks, majors } =
     useContext(GlobalContext);
   const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
@@ -31,6 +34,11 @@ const AcademicForm = () => {
   const [targetSubjectBlock, setTargetSubjectBlock] = useState<string | null>(
     null
   );
+  const [targetLevel, setTargetLevel] = useState<ELEVEL>(ELEVEL.UNIVERSITY);
+  const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
+    null
+  );
+  const highschoolAddressRef = useRef<{ value: () => string }>(null);
 
   const subjectInBlock: { id: string; name: string }[] = useMemo(
     () =>
@@ -55,6 +63,24 @@ const AcademicForm = () => {
       ...state,
       [name]: value,
     }));
+  };
+
+  const submitHandler = async () => {
+    try {
+      await AdmissionService.applyApplicationForAdmissionWithAHighSchoolScript({
+        body: {
+          ...details,
+          addressToReceiveAdmissionNotice:
+            addressToReceiveAdmissionNoticeRef.current?.value(),
+          highschoolAddress: highschoolAddressRef.current?.value(),
+        },
+      });
+      toast.success(
+        "Application code is send to your email or phone number, please check it"
+      );
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
@@ -154,6 +180,7 @@ const AcademicForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <SelectLocation
+              ref={addressToReceiveAdmissionNoticeRef}
               data={
                 locations as {
                   code: string;
@@ -163,7 +190,7 @@ const AcademicForm = () => {
                 }[]
               }
               values={{
-                country: "",
+                city: "",
                 district: "",
                 ward: "",
               }}
@@ -182,6 +209,7 @@ const AcademicForm = () => {
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
               <SelectLocation
+                ref={highschoolAddressRef}
                 data={
                   locations as {
                     code: string;
@@ -191,7 +219,7 @@ const AcademicForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}
@@ -254,15 +282,35 @@ const AcademicForm = () => {
           </label>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
-              <select name="" id="" className="flex-1">
-                <option value=""></option>
+              <select
+                value={targetLevel}
+                className="flex-1"
+                onChange={(e) => setTargetLevel(e.target.value as ELEVEL)}
+              >
+                {Object.keys(ELEVEL).map((item) => (
+                  <option
+                    key={ELEVEL[item as keyof typeof ELEVEL] as string}
+                    value={ELEVEL[item as keyof typeof ELEVEL] as string}
+                  >
+                    {ELEVEL[item as keyof typeof ELEVEL]}
+                  </option>
+                ))}
               </select>
               <div className="flex flex-1 gap-2">
                 <label htmlFor="">
                   Ngành (<span className="text-[#A9161C]">*</span>)
                 </label>
-                <select name="" id="" className="flex-1">
-                  <option value=""></option>
+                <select
+                  className="flex-1"
+                  onChange={(e) => changeHandler("majorId", e.target.value)}
+                >
+                  {majors
+                    .filter((item) => item.educationalLevel === targetLevel)
+                    .map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -353,7 +401,10 @@ const AcademicForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto">
+      <button
+        className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto"
+        onClick={submitHandler}
+      >
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

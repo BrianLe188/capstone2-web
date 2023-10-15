@@ -1,4 +1,5 @@
-import { EFILE, EMessageType } from "./enums";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { EFILE, ELEVEL, EMessageType } from "./enums";
 
 export type Prettify<T> = {
   [K in keyof T]: T[K];
@@ -45,5 +46,16 @@ export type SubjectBlock = Prettify<
     subjects: [];
     basedOnHighSchoolExamResults: [];
     basedOnHighSchoolTranscripts: [];
+  } & Basic
+>;
+
+export type Major = Prettify<
+  {
+    educationalLevel: ELEVEL;
+    industryCode: string;
+    description: string;
+    memberSchool: any;
+    basedOnHighSchoolExamResults: Array<SubjectBlock>;
+    basedOnHighSchoolTranscripts: Array<SubjectBlock>;
   } & Basic
 >;

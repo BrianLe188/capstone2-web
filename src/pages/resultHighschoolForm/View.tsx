@@ -1,6 +1,6 @@
 import SelectLocation from "@/components/select-location";
 import "./resultHighschoolForm.css";
-import locations from "@/assets/locations.json";
+import locations from "@/assets/locations";
 import { useContext, useEffect, useMemo, useState } from "react";
 import { GlobalContext } from "@/contexts/global-context";
 
@@ -48,6 +48,7 @@ const ResultHighschoolForm = () => {
     }
   }, [targetSubjectBlock]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
     setDetails((state) => ({
       ...state,
@@ -143,7 +144,7 @@ const ResultHighschoolForm = () => {
                 }[]
               }
               values={{
-                country: "",
+                city: "",
                 district: "",
                 ward: "",
               }}
@@ -170,7 +171,7 @@ const ResultHighschoolForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}

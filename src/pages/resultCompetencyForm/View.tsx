@@ -1,6 +1,6 @@
 import SelectLocation from "@/components/select-location";
 import "./resultCompetencyForm.css";
-import locations from "@/assets/locations.json";
+import locations from "@/assets/locations";
 import { useContext, useState } from "react";
 import { GlobalContext } from "@/contexts/global-context";
 
@@ -22,6 +22,7 @@ const ResultCompetencyForm = () => {
     graduationYear: null,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
     setDetails((state) => ({
       ...state,
@@ -125,7 +126,7 @@ const ResultCompetencyForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}
@@ -149,7 +150,7 @@ const ResultCompetencyForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}
@@ -236,7 +237,7 @@ const ResultCompetencyForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}

@@ -1,4 +1,4 @@
-[
+export default [
     {
         "code": "01",
         "parent_code": null,

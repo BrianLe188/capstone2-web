@@ -1,6 +1,6 @@
 import SelectLocation from "@/components/select-location";
 import "./admissionUniversityForm.css";
-import locations from "@/assets/locations.json";
+import locations from "@/assets/locations";
 import { useContext, useState } from "react";
 import { GlobalContext } from "@/contexts/global-context";
 
@@ -55,6 +55,7 @@ const AdmissionUniversityForm = () => {
 
   console.log(details);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
     setDetails((state) => ({
       ...state,
@@ -156,7 +157,7 @@ const AdmissionUniversityForm = () => {
                 }[]
               }
               values={{
-                country: "",
+                city: "",
                 district: "",
                 ward: "",
               }}
@@ -184,7 +185,7 @@ const AdmissionUniversityForm = () => {
                   }[]
                 }
                 values={{
-                  country: "",
+                  city: "",
                   district: "",
                   ward: "",
                 }}

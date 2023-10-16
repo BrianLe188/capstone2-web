@@ -1,8 +1,10 @@
 import SelectLocation from "@/components/select-location";
 import "./resultCompetencyForm.css";
 import locations from "@/assets/locations";
-import { useContext, useState } from "react";
+import { useContext, useState, useRef } from "react";
 import { GlobalContext } from "@/contexts/global-context";
+import { toast } from "react-toastify";
+import AdmissionService from "@/services/admission";
 
 const ResultCompetencyForm = () => {
   const { genders, areas, priorities } = useContext(GlobalContext);
@@ -21,6 +23,10 @@ const ResultCompetencyForm = () => {
     highschoolName: null,
     graduationYear: null,
   });
+  const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
+    null
+  );
+  const highschoolAddressRef = useRef<{ value: () => string }>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
@@ -28,6 +34,24 @@ const ResultCompetencyForm = () => {
       ...state,
       [name]: value,
     }));
+  };
+
+  const submitHandler = async () => {
+    try {
+      await AdmissionService.applyApplicationForAdmissionConsiderationAccordingToTheCompetenceAssessmentTestResult({
+        body: {
+          ...details,
+          addressToReceiveAdmissionNotice:
+            addressToReceiveAdmissionNoticeRef.current?.value(),
+          highschoolAddress: highschoolAddressRef.current?.value(),
+        },
+      });
+      toast.success(
+        "Application code is send to your email or phone number, please check it"
+      );
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
   };
 
   return (
@@ -341,7 +365,7 @@ const ResultCompetencyForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto">
+      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto" onClick={submitHandler}>
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

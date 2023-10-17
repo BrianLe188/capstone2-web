@@ -1,8 +1,10 @@
 import SelectLocation from "@/components/select-location";
 import "./resultHighschoolForm.css";
 import locations from "@/assets/locations";
-import { useContext, useEffect, useMemo, useState } from "react";
+import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { GlobalContext } from "@/contexts/global-context";
+import { toast } from "react-toastify";
+import AdmissionService from "@/services/admission";
 
 const ResultHighschoolForm = () => {
   const { genders, areas, priorities, subjectBlocks } =
@@ -29,6 +31,10 @@ const ResultHighschoolForm = () => {
   const [targetSubjectBlock, setTargetSubjectBlock] = useState<string | null>(
     null
   );
+  const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
+    null
+  );
+  const highschoolAddressRef = useRef<{ value: () => string }>(null);
 
   const subjectInBlock: { id: string; name: string }[] = useMemo(
     () =>
@@ -55,6 +61,25 @@ const ResultHighschoolForm = () => {
       [name]: value,
     }));
   };
+
+  const submitHandler = async () => {
+    try {
+      await AdmissionService.applyApplicationAdmissionRegistration({
+        body: {
+          ...details,
+          addressToReceiveAdmissionNotice:
+            addressToReceiveAdmissionNoticeRef.current?.value(),
+          highschoolAddress: highschoolAddressRef.current?.value(),
+        },
+      });
+      toast.success(
+        "Application code is send to your email or phone number, please check it"
+      );
+    } catch (error) {
+      toast.error("Something went wrong!");
+    }
+  };
+
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
@@ -335,7 +360,7 @@ const ResultHighschoolForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto">
+      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto" onClick={submitHandler}>
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

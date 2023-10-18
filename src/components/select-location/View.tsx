@@ -70,6 +70,7 @@ const View = forwardRef(
           className="w-1/3"
           onChange={(e) => changeHandler("city", e.target.value)}
         >
+          <option value="">Chọn tỉnh / thành phố</option>
           {locations.cities?.map((item) => (
             <option value={item.name}>{item.name}</option>
           ))}
@@ -81,6 +82,7 @@ const View = forwardRef(
           className="w-1/3"
           onChange={(e) => changeHandler("district", e.target.value)}
         >
+          <option value="">Chọn quận / huyện</option>
           {locations.districts
             ?.filter(
               (item) =>
@@ -99,6 +101,7 @@ const View = forwardRef(
           className="w-1/3"
           onChange={(e) => changeHandler("ward", e.target.value)}
         >
+          <option value="">Chọn phường / xã</option>
           {locations.wards
             ?.filter(
               (item) =>

@@ -5,9 +5,10 @@ import { useContext, useEffect, useMemo, useState, useRef } from "react";
 import { GlobalContext } from "@/contexts/global-context";
 import { toast } from "react-toastify";
 import AdmissionService from "@/services/admission";
+import { ELEVEL } from "@/utils/enums";
 
 const ResultHighschoolForm = () => {
-  const { genders, areas, priorities, subjectBlocks } =
+  const { genders, areas, priorities, subjectBlocks, majors } =
     useContext(GlobalContext);
   const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
@@ -40,6 +41,7 @@ const ResultHighschoolForm = () => {
     () =>
       subjectBlocks.find((item) => item.id === (targetSubjectBlock as string))
         ?.subjects || [],
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [targetSubjectBlock]
   );
 
@@ -52,6 +54,7 @@ const ResultHighschoolForm = () => {
         subjectThree: subjectInBlock[2]?.id,
       }));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [targetSubjectBlock]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -85,8 +88,6 @@ const ResultHighschoolForm = () => {
       <h1 className="text-[#A62823] font-semibold text-3xl">
         ĐĂNG KÝ XÉT TUYỂN BẰNG KẾT QUẢ THI THPT
       </h1>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN HỒ SƠ
@@ -160,6 +161,7 @@ const ResultHighschoolForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <SelectLocation
+              ref={addressToReceiveAdmissionNoticeRef}
               data={
                 locations as {
                   code: string;
@@ -187,6 +189,7 @@ const ResultHighschoolForm = () => {
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
               <SelectLocation
+                ref={highschoolAddressRef}
                 data={
                   locations as {
                     code: string;
@@ -224,6 +227,7 @@ const ResultHighschoolForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("area", e.target.value)}
             >
+              <option value="">Chọn khu vực</option>
               {areas.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -240,6 +244,7 @@ const ResultHighschoolForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("priority", e.target.value)}
             >
+              <option value="">Chọn đối tượng ưu tiên</option>
               {priorities.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -249,8 +254,6 @@ const ResultHighschoolForm = () => {
           </div>
         </div>
       </div>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN ĐĂNG KÝ
@@ -262,14 +265,27 @@ const ResultHighschoolForm = () => {
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
               <select name="" id="" className="flex-1">
-                <option value=""></option>
+                <option value="">Chọn bậc học</option>
+                {Object.keys(ELEVEL).map((item, index) => (
+                  <option
+                    key={index}
+                    value={ELEVEL[item as keyof typeof ELEVEL]}
+                  >
+                    {ELEVEL[item as keyof typeof ELEVEL]}
+                  </option>
+                ))}
               </select>
               <div className="flex flex-1 gap-2">
                 <label htmlFor="">
                   Ngành (<span className="text-[#A9161C]">*</span>)
                 </label>
                 <select name="" id="" className="flex-1">
-                  <option value=""></option>
+                  <option value="">Chọn ngành</option>
+                  {majors.map((item) => (
+                    <option key={item.id} value={item.id}>
+                      {item.name}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -288,6 +304,7 @@ const ResultHighschoolForm = () => {
               value={targetSubjectBlock || ""}
               onChange={(e) => setTargetSubjectBlock(e.target.value)}
             >
+              <option value="">Chọn môn học</option>
               {subjectBlocks.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -360,7 +377,10 @@ const ResultHighschoolForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto" onClick={submitHandler}>
+      <button
+        className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto"
+        onClick={submitHandler}
+      >
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

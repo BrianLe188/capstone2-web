@@ -42,7 +42,7 @@ const factorArray = [
 ];
 
 const AdmissionUniversityForm = () => {
-  const { genders, areas, priorities } = useContext(GlobalContext);
+  const { genders, areas, priorities, majors } = useContext(GlobalContext);
   const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
     gender: null,
@@ -53,13 +53,15 @@ const AdmissionUniversityForm = () => {
     area: null,
     priority: null,
     factor: null,
+    highschoolGraduateYear: null,
+    addressToReceiveAdmissionNotice: null,
+    objectAdmission: null,
   });
 
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
     null
   );
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
-
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
@@ -71,14 +73,16 @@ const AdmissionUniversityForm = () => {
 
   const submitHandler = async () => {
     try {
-      await AdmissionService.applyApplicationForStraightAdmissionAndPriorityConsideration({
-        body: {
-          ...details,
-          addressToReceiveAdmissionNotice:
-            addressToReceiveAdmissionNoticeRef.current?.value(),
-          highschoolAddress: highschoolAddressRef.current?.value(),
-        },
-      });
+      await AdmissionService.applyApplicationForStraightAdmissionAndPriorityConsideration(
+        {
+          body: {
+            ...details,
+            addressToReceiveAdmissionNotice:
+              addressToReceiveAdmissionNoticeRef.current?.value(),
+            highschoolAddress: highschoolAddressRef.current?.value(),
+          },
+        }
+      );
       toast.success(
         "Application code is send to your email or phone number, please check it"
       );
@@ -172,6 +176,7 @@ const AdmissionUniversityForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <SelectLocation
+              ref={addressToReceiveAdmissionNoticeRef}
               data={
                 locations as {
                   code: string;
@@ -200,6 +205,7 @@ const AdmissionUniversityForm = () => {
           <div className="flex flex-col gap-2">
             <div className="flex gap-2">
               <SelectLocation
+                ref={highschoolAddressRef}
                 data={
                   locations as {
                     code: string;
@@ -294,7 +300,10 @@ const AdmissionUniversityForm = () => {
           </label>
           <div className="flex flex-col">
             <select name="" id="">
-              <option value=""></option>
+              <option value="">Chọn ngành</option>
+              {majors.map((item) => (
+                <option value={item.id}>{item.name}</option>
+              ))}
             </select>
             <span>
               (Ghi chú: thí sinh được phép chuyển đổi ngành phù hợp sau 1 Học kỳ
@@ -319,7 +328,10 @@ const AdmissionUniversityForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto" onClick={submitHandler}>
+      <button
+        className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto"
+        onClick={submitHandler}
+      >
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

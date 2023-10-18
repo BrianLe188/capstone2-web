@@ -7,12 +7,12 @@ import { toast } from "react-toastify";
 import AdmissionService from "@/services/admission";
 
 const ResultCompetencyForm = () => {
-  const { genders, areas, priorities } = useContext(GlobalContext);
+  const { genders, areas, priorities, majors } = useContext(GlobalContext);
   const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
     gender: null,
     birthday: null,
-    placeOfBirth: null,
+    birthplace: null,
     nation: null,
     permanentResidence: null,
     cccd: null,
@@ -20,13 +20,18 @@ const ResultCompetencyForm = () => {
     email: null,
     area: null,
     priority: null,
-    highschoolName: null,
-    graduationYear: null,
+    highschoolAddress: null,
+    highschoolGraduateYear: null,
+    examRegistrationApplicationCode: null,
+    nameOfTheUniversityOrganizingTheExam: null,
+    resultOfExam: null,
+    majorId: null,
   });
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
     null
   );
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
+  const permanentResidenceRef = useRef<{ value: () => string }>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
@@ -38,14 +43,17 @@ const ResultCompetencyForm = () => {
 
   const submitHandler = async () => {
     try {
-      await AdmissionService.applyApplicationForAdmissionConsiderationAccordingToTheCompetenceAssessmentTestResult({
-        body: {
-          ...details,
-          addressToReceiveAdmissionNotice:
-            addressToReceiveAdmissionNoticeRef.current?.value(),
-          highschoolAddress: highschoolAddressRef.current?.value(),
-        },
-      });
+      await AdmissionService.applyApplicationForAdmissionConsiderationAccordingToTheCompetenceAssessmentTestResult(
+        {
+          body: {
+            ...details,
+            addressToReceiveAdmissionNotice:
+              addressToReceiveAdmissionNoticeRef.current?.value(),
+            highschoolAddress: highschoolAddressRef.current?.value(),
+            permanentResidence: permanentResidenceRef.current?.value(),
+          },
+        }
+      );
       toast.success(
         "Application code is send to your email or phone number, please check it"
       );
@@ -59,8 +67,6 @@ const ResultCompetencyForm = () => {
       <h1 className="text-[#A62823] font-semibold text-3xl">
         ĐĂNG KÝ XÉT TUYỂN THEO KẾT QUẢ THI ĐÁNH GIÁ NĂNG LỰC
       </h1>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN HỒ SƠ
@@ -103,8 +109,8 @@ const ResultCompetencyForm = () => {
             </label>
             <input
               type="text"
-              value={details.placeOfBirth || ""}
-              onChange={(e) => changeHandler("placeOfBirth", e.target.value)}
+              value={details.birthplace || ""}
+              onChange={(e) => changeHandler("birthplace", e.target.value)}
             />
             <span>(Ghi Tỉnh hoặc Thành phố)</span>
           </div>
@@ -113,11 +119,13 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Dân tộc (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input
-            type="text"
+          <select
             value={details.nation || ""}
+            className="flex-1"
             onChange={(e) => changeHandler("nation", e.target.value)}
-          />
+          >
+            <option value="">Chọn dân tộc</option>
+          </select>
           <label htmlFor="">
             Số CMND/CCCD (<span className="text-[#A9161C]">*</span>)
           </label>
@@ -132,15 +140,9 @@ const ResultCompetencyForm = () => {
             Hộ khẩu thường trú (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2 w-full">
-            <input
-              type="text"
-              value={details.permanentResidence || ""}
-              onChange={(e) =>
-                changeHandler("permanentResidence", e.target.value)
-              }
-            />
             <div className="flex gap-2 w-full">
               <SelectLocation
+                ref={permanentResidenceRef}
                 data={
                   locations as {
                     code: string;
@@ -156,6 +158,13 @@ const ResultCompetencyForm = () => {
                 }}
               />
             </div>
+            <input
+              type="text"
+              value={details.permanentResidence || ""}
+              onChange={(e) =>
+                changeHandler("permanentResidence", e.target.value)
+              }
+            />
           </div>
         </div>
         <div className="flex">
@@ -165,6 +174,7 @@ const ResultCompetencyForm = () => {
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
               <SelectLocation
+                ref={highschoolAddressRef}
                 data={
                   locations as {
                     code: string;
@@ -186,9 +196,9 @@ const ResultCompetencyForm = () => {
               </label>
               <input
                 type="text"
-                value={details.highschoolName || ""}
+                value={details.highschoolAddress || ""}
                 onChange={(e) =>
-                  changeHandler("highschoolName", e.target.value)
+                  changeHandler("highschoolAddress", e.target.value)
                 }
                 className="w-full"
               />
@@ -209,6 +219,7 @@ const ResultCompetencyForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("area", e.target.value)}
             >
+              <option value="">Chọn khu vực</option>
               {areas.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -225,6 +236,7 @@ const ResultCompetencyForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("priority", e.target.value)}
             >
+              <option value="">Chọn đối tượng ưu tiên</option>
               {priorities.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -238,9 +250,11 @@ const ResultCompetencyForm = () => {
             Năm tốt nghiệp (<span className="text-[#A9161C]">*</span>)
           </label>
           <input
-            type="text"
-            value={details.graduationYear || ""}
-            onChange={(e) => changeHandler("graduationYear", e.target.value)}
+            type="number"
+            value={details.highschoolGraduateYear || ""}
+            onChange={(e) =>
+              changeHandler("highschoolGraduateYear", e.target.value)
+            }
             className="grow"
           />
         </div>
@@ -252,6 +266,7 @@ const ResultCompetencyForm = () => {
           <div className="flex flex-col gap-2 w-full">
             <div className="flex gap-2 w-full">
               <SelectLocation
+                ref={addressToReceiveAdmissionNoticeRef}
                 data={
                   locations as {
                     code: string;
@@ -296,8 +311,6 @@ const ResultCompetencyForm = () => {
           </div>
         </div>
       </div>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN ĐĂNG KÝ
@@ -306,7 +319,14 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Mã hồ sơ đăng ký dự thi (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" className="grow" />
+          <input
+            type="text"
+            className="grow"
+            value={details.examRegistrationApplicationCode || ""}
+            onChange={(e) =>
+              changeHandler("examRegistrationApplicationCode", e.target.value)
+            }
+          />
           <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
         </div>
 
@@ -314,14 +334,29 @@ const ResultCompetencyForm = () => {
           <label htmlFor="">
             Trường tổ chức thi (<span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" className="grow" />
+          <input
+            type="text"
+            className="grow"
+            value={details.nameOfTheUniversityOrganizingTheExam || ""}
+            onChange={(e) =>
+              changeHandler(
+                "nameOfTheUniversityOrganizingTheExam",
+                e.target.value
+              )
+            }
+          />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
             Kết quả thi đánh giá năng lực(
             <span className="text-[#A9161C]">*</span>)
           </label>
-          <input type="text" className="grow" />
+          <input
+            type="text"
+            className="grow"
+            value={details.resultOfExam || ""}
+            onChange={(e) => changeHandler("resultOfExam", e.target.value)}
+          />
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
@@ -329,7 +364,12 @@ const ResultCompetencyForm = () => {
           </label>
           <div className="flex flex-col gap-2 w-full">
             <select name="" id="">
-              <option value="">---Chọn Ngành</option>
+              <option value="">Chọn Ngành</option>
+              {majors.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
             </select>
           </div>
           <span className="grow">(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
@@ -365,7 +405,10 @@ const ResultCompetencyForm = () => {
         </div>
       </div>
 
-      <button className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto" onClick={submitHandler}>
+      <button
+        className="bg-[#A9161C] px-4 py-2 text-white w-1/5 my-4 mx-auto"
+        onClick={submitHandler}
+      >
         ĐĂNG KÝ XÉT TUYỂN
       </button>
     </div>

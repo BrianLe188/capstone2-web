@@ -46,6 +46,7 @@ const AcademicForm = () => {
         ?.subjects || [],
     [targetSubjectBlock]
   );
+  console.log(details);
 
   useEffect(() => {
     if (subjectInBlock) {
@@ -70,9 +71,12 @@ const AcademicForm = () => {
       await AdmissionService.applyApplicationForAdmissionWithAHighSchoolScript({
         body: {
           ...details,
-          addressToReceiveAdmissionNotice:
-            addressToReceiveAdmissionNoticeRef.current?.value(),
-          highschoolAddress: highschoolAddressRef.current?.value(),
+          addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()} ${
+            details.addressToReceiveAdmissionNotice
+          }`,
+          highschoolAddress: `${highschoolAddressRef.current?.value()} ${
+            details.highschoolAddress
+          }`,
         },
       });
       toast.success(
@@ -196,7 +200,15 @@ const AcademicForm = () => {
               }}
             />
             <div className="flex flex-col gap-2">
-              <input type="text" />
+              <input
+                type="text"
+                onChange={(e) =>
+                  changeHandler(
+                    "addressToReceiveAdmissionNotice",
+                    e.target.value
+                  )
+                }
+              />
               <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
               SEle
             </div>
@@ -229,7 +241,13 @@ const AcademicForm = () => {
               <label htmlFor="">
                 Trường THPT (<span className="text-[#A9161C]">*</span>)
               </label>
-              <input type="text" name="" id="" className="w-full" />
+              <input
+                type="text"
+                className="w-full"
+                onChange={(e) =>
+                  changeHandler("highschoolAddress", e.target.value)
+                }
+              />
             </div>
             <span>
               (Ghi chú: nếu là thí sinh tự do thì bạn chọn trường thpt đã tốt

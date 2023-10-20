@@ -46,7 +46,6 @@ const AcademicForm = () => {
         ?.subjects || [],
     [targetSubjectBlock]
   );
-  console.log(details);
 
   useEffect(() => {
     if (subjectInBlock) {
@@ -265,6 +264,7 @@ const AcademicForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("area", e.target.value)}
             >
+              <option value="">Chọn khu vực</option>
               {areas.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -281,6 +281,7 @@ const AcademicForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("priority", e.target.value)}
             >
+              <option value="">Chọn đối tượng ưu tiên</option>
               {priorities.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -322,6 +323,7 @@ const AcademicForm = () => {
                   className="flex-1"
                   onChange={(e) => changeHandler("majorId", e.target.value)}
                 >
+                  <option value="">Chọn ngành</option>
                   {majors
                     .filter((item) => item.educationalLevel === targetLevel)
                     .map((item) => (
@@ -340,18 +342,28 @@ const AcademicForm = () => {
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
-            Môn học (<span className="text-[#A9161C]">*</span>)
+            Khối môn học (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2">
             <select
               value={targetSubjectBlock || ""}
               onChange={(e) => setTargetSubjectBlock(e.target.value)}
             >
-              {subjectBlocks.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
+              <option value="">Chọn khối môn học</option>
+              {majors
+                .find((item) => item.id === details.majorId)
+                ?.basedOnHighSchoolExamResults?.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              {majors
+                .find((item) => item.id === details.majorId)
+                ?.basedOnHighSchoolTranscripts?.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
             </select>
             <span>
               Bạn vui lòng nhập kết quả học tập các môn tương ứng bên dưới:

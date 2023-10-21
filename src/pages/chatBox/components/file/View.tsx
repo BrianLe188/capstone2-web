@@ -5,7 +5,7 @@ const View = ({
   data,
   active = false,
 }: {
-  data: { id: number; name: string; path: string };
+  data: { id: string; name: string; path: string };
   active?: boolean;
 }) => {
   return (

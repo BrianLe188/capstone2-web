@@ -6,11 +6,13 @@ import type {
   Priority,
   SubjectBlock,
   Major,
+  Basic,
 } from "@/utils/types";
 import { ReactElement, createContext, useEffect, useState } from "react";
 import PriorityService from "@/services/priorities";
 import SubjectBlockService from "@/services/subject-blocks";
 import MajorService from "@/services/majors";
+import ObjectAdmissionService from "@/services/object-admissions";
 
 type Init = {
   genders: Array<Gender>;
@@ -18,6 +20,7 @@ type Init = {
   priorities: Array<Priority>;
   subjectBlocks: Array<SubjectBlock>;
   majors: Array<Major>;
+  objectAdmissions: Array<Basic>;
 };
 
 const initialState: Init = {
@@ -26,6 +29,7 @@ const initialState: Init = {
   priorities: [],
   subjectBlocks: [],
   majors: [],
+  objectAdmissions: [],
 };
 
 export const GlobalContext = createContext(initialState);
@@ -36,6 +40,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
   const [priorities, setPriorities] = useState<Array<Priority>>([]);
   const [subjectBlocks, setSubjectBlocks] = useState<Array<SubjectBlock>>([]);
   const [majors, setMajors] = useState<Array<Major>>([]);
+  const [objectAdmissions, setObjectAdmissions] = useState<Array<Basic>>([]);
 
   useEffect(() => {
     loadGenders();
@@ -43,7 +48,15 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
     loadPriorities();
     loadSubjectBlocks();
     loadMajors();
+    loadObjectAdmissions();
   }, []);
+
+  const loadObjectAdmissions = async () => {
+    const res = await ObjectAdmissionService.getObjectAdmissions();
+    if (res) {
+      setObjectAdmissions(res);
+    }
+  };
 
   const loadMajors = async () => {
     const res = await MajorService.getMajors();
@@ -88,6 +101,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
         priorities,
         subjectBlocks,
         majors,
+        objectAdmissions,
       }}
     >
       {children}

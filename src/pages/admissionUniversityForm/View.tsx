@@ -6,43 +6,9 @@ import { GlobalContext } from "@/contexts/global-context";
 import { toast } from "react-toastify";
 import AdmissionService from "@/services/admission";
 
-const factorArray = [
-  {
-    text: "Tham dự đội tuyển thi Olympic quốc tế, cuộc thi KHKT quốc tế. Xét giải các năm 2021, 2022, 2023",
-    value: 1,
-  },
-  {
-    text: "Giải học sinh giỏi Nhất, Nhỉ, Ba, Khuyến khích cấp Quốc gia; cấp tỉnh, thành phố trực thuộc Trung ương.",
-    value: 2,
-  },
-  {
-    text: "Giải Nhất, Nhì, Ba, Khuyến khích trong Cuộc thì Khoa học Kỹ thuật cấp quốc gia: cấp tỉnh, thành phố trực thuộc Trung ương.",
-    value: 3,
-  },
-  {
-    text: "Giải Nhất, Nhì, Ba, khuyến khích tại các kỷ thi tay nghề khu vực ASEAN, thi tay nghề quốc tể.",
-    value: 4,
-  },
-  {
-    text: 'Tham gia Vòng thi tuần trong cuộc thi "Đường lên đỉnh 0lympia" trên Đài truyền hình Việt Nam.',
-    value: 5,
-  },
-  {
-    text: "Xét tuyển thẳng đối với các học sinh tốt nghiệp các trưởng THPT Chuyên của tỉnh, thành phố trực thuộc Trung ương (trừ khối ngành Khoa học Sức khỏe).",
-    value: 6,
-  },
-  {
-    text: "Xét tuyển thẳng Thí sinh là thành viên đội tuyển quốc gia,",
-    value: 7,
-  },
-  {
-    text: "Xết tuyển thẳng Thí sinh là người nước ngoài tốt nghiệp THPT hoặc tương đương THPT của Việt Nam (trừ khối ngành Khoa học Sức khỏe).",
-    value: 8,
-  },
-];
-
 const AdmissionUniversityForm = () => {
-  const { genders, areas, priorities, majors } = useContext(GlobalContext);
+  const { genders, areas, priorities, majors, objectAdmissions } =
+    useContext(GlobalContext);
   const [details, setDetails] = useState<Record<string, string | null>>({
     fullName: null,
     gender: null,
@@ -52,10 +18,10 @@ const AdmissionUniversityForm = () => {
     email: null,
     area: null,
     priority: null,
-    factor: null,
     highschoolGraduateYear: null,
     addressToReceiveAdmissionNotice: null,
     objectAdmission: null,
+    majorId: null,
   });
 
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
@@ -243,6 +209,7 @@ const AdmissionUniversityForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("area", e.target.value)}
             >
+              <option value="">Chọn khu vực</option>
               {areas.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -259,6 +226,7 @@ const AdmissionUniversityForm = () => {
               className="flex-1"
               onChange={(e) => changeHandler("priority", e.target.value)}
             >
+              <option value="">Chọn đối tượng ưu tiên</option>
               {priorities.map((item) => (
                 <option key={item.id} value={item.id}>
                   {item.name}
@@ -272,23 +240,23 @@ const AdmissionUniversityForm = () => {
             Đối tượng xét tuyển (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-4">
-            {factorArray.map((item, index) => (
-              <div className="flex gap-2 items-center" key={index}>
+            {objectAdmissions.map((item) => (
+              <div className="flex gap-2 items-center" key={item.id}>
                 <input
                   type="radio"
-                  name="factor"
+                  name="objectAdmission"
                   id=""
-                  value={item.value}
-                  onChange={(e) => changeHandler("factor", e.target.value)}
+                  value={item.id}
+                  onChange={(e) =>
+                    changeHandler("objectAdmission", e.target.value)
+                  }
                 />
-                <label htmlFor="">{item.text}</label>
+                <label htmlFor="">{item.name}</label>
               </div>
             ))}
           </div>
         </div>
       </div>
-
-      {/*  */}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN ĐĂNG KÝ
@@ -299,7 +267,11 @@ const AdmissionUniversityForm = () => {
             Ngành đăng ký(<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col">
-            <select name="" id="">
+            <select
+              name=""
+              id=""
+              onChange={(e) => changeHandler("majorId", e.target.value)}
+            >
               <option value="">Chọn ngành</option>
               {majors.map((item) => (
                 <option value={item.id}>{item.name}</option>

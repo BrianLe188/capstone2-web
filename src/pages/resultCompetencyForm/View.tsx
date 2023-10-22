@@ -32,6 +32,7 @@ const ResultCompetencyForm = () => {
   );
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
   const permanentResidenceRef = useRef<{ value: () => string }>(null);
+  const birthplaceRef = useRef<{ value: () => string }>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
@@ -47,10 +48,18 @@ const ResultCompetencyForm = () => {
         {
           body: {
             ...details,
-            addressToReceiveAdmissionNotice:
-              addressToReceiveAdmissionNoticeRef.current?.value(),
-            highschoolAddress: highschoolAddressRef.current?.value(),
-            permanentResidence: permanentResidenceRef.current?.value(),
+            addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()}${
+              details.addressToReceiveAdmissionNotice
+            }`,
+            highschoolAddress: `${highschoolAddressRef.current?.value()}${
+              details.highschoolAddress
+            }`,
+            permanentResidence: `${permanentResidenceRef.current?.value()}${
+              details.permanentResidence
+            }`,
+            birthplace: `${birthplaceRef.current?.value()}${
+              details.birthplace
+            }`,
           },
         }
       );
@@ -103,17 +112,37 @@ const ResultCompetencyForm = () => {
               onChange={(e) => changeHandler("birthday", e.target.value)}
             />
           </div>
-          <div className="flex gap-2">
-            <label htmlFor="">
-              Nơi sinh (<span className="text-[#A9161C]">*</span>)
-            </label>
+        </div>
+        <div className="flex gap-2">
+          <label htmlFor="">
+            Nơi sinh (<span className="text-[#A9161C]">*</span>)
+          </label>
+          <div className="flex flex-col gap-2 w-full">
+            <div className="flex gap-2 w-full">
+              <SelectLocation
+                ref={birthplaceRef}
+                data={
+                  locations as {
+                    code: string;
+                    parent_code: string | null;
+                    name: string;
+                    type: string;
+                  }[]
+                }
+                values={{
+                  city: "",
+                  district: "",
+                  ward: "",
+                }}
+              />
+            </div>
             <input
               type="text"
               value={details.birthplace || ""}
               onChange={(e) => changeHandler("birthplace", e.target.value)}
             />
-            <span>(Ghi Tỉnh hoặc Thành phố)</span>
           </div>
+          <span>(Ghi Tỉnh hoặc Thành phố)</span>
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
@@ -283,7 +312,15 @@ const ResultCompetencyForm = () => {
               />
             </div>
             <div className="flex flex-col gap-2">
-              <input type="text" />
+              <input
+                type="text"
+                onChange={(e) =>
+                  changeHandler(
+                    "addressToReceiveAdmissionNotice",
+                    e.target.value
+                  )
+                }
+              />
               <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
             </div>
           </div>
@@ -363,7 +400,7 @@ const ResultCompetencyForm = () => {
             Ngành đăng ký (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2 w-full">
-            <select name="" id="">
+            <select onChange={(e) => changeHandler("majorId", e.target.value)}>
               <option value="">Chọn Ngành</option>
               {majors.map((item) => (
                 <option key={item.id} value={item.id}>

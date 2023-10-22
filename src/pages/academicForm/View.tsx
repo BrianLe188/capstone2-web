@@ -70,10 +70,10 @@ const AcademicForm = () => {
       await AdmissionService.applyApplicationForAdmissionWithAHighSchoolScript({
         body: {
           ...details,
-          addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()} ${
+          addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()}${
             details.addressToReceiveAdmissionNotice
           }`,
-          highschoolAddress: `${highschoolAddressRef.current?.value()} ${
+          highschoolAddress: `${highschoolAddressRef.current?.value()}${
             details.highschoolAddress
           }`,
         },
@@ -306,6 +306,7 @@ const AcademicForm = () => {
                 className="flex-1"
                 onChange={(e) => setTargetLevel(e.target.value as ELEVEL)}
               >
+                <option value="">Chọn bậc học</option>
                 {Object.keys(ELEVEL).map((item) => (
                   <option
                     key={ELEVEL[item as keyof typeof ELEVEL] as string}

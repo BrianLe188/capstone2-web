@@ -22,6 +22,7 @@ const AdmissionUniversityForm = () => {
     addressToReceiveAdmissionNotice: null,
     objectAdmission: null,
     majorId: null,
+    highschoolAddress: null,
   });
 
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
@@ -43,9 +44,12 @@ const AdmissionUniversityForm = () => {
         {
           body: {
             ...details,
-            addressToReceiveAdmissionNotice:
-              addressToReceiveAdmissionNoticeRef.current?.value(),
-            highschoolAddress: highschoolAddressRef.current?.value(),
+            addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()}${
+              details.addressToReceiveAdmissionNotice
+            }`,
+            highschoolAddress: `${highschoolAddressRef.current?.value()}${
+              details.highschoolAddress
+            }`,
           },
         }
       );
@@ -191,7 +195,13 @@ const AdmissionUniversityForm = () => {
               <label htmlFor="">
                 Trường THPT (<span className="text-[#A9161C]">*</span>)
               </label>
-              <input type="text" name="" id="" className="w-full" />
+              <input
+                type="text"
+                className="w-full"
+                onChange={(e) =>
+                  changeHandler("highschoolAddress", e.target.value)
+                }
+              />
             </div>
             <span>
               (Ghi chú: nếu là thí sinh tự do thì bạn chọn trường thpt đã tốt

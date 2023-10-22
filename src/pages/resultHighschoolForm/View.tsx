@@ -36,6 +36,7 @@ const ResultHighschoolForm = () => {
     null
   );
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
+  const [targetLevel, setTargetLevel] = useState<ELEVEL>(ELEVEL.UNIVERSITY);
 
   const subjectInBlock: { id: string; name: string }[] = useMemo(
     () =>
@@ -70,9 +71,12 @@ const ResultHighschoolForm = () => {
       await AdmissionService.applyApplicationAdmissionRegistration({
         body: {
           ...details,
-          addressToReceiveAdmissionNotice:
-            addressToReceiveAdmissionNoticeRef.current?.value(),
-          highschoolAddress: highschoolAddressRef.current?.value(),
+          addressToReceiveAdmissionNotice: `${addressToReceiveAdmissionNoticeRef.current?.value()}${
+            details.addressToReceiveAdmissionNotice
+          }`,
+          highschoolAddress: `${highschoolAddressRef.current?.value()}${
+            details.highschoolAddress
+          }`,
         },
       });
       toast.success(
@@ -264,7 +268,11 @@ const ResultHighschoolForm = () => {
           </label>
           <div className="flex flex-col w-full gap-2">
             <div className="flex flex-1 gap-2">
-              <select name="" id="" className="flex-1">
+              <select
+                className="flex-1"
+                onChange={(e) => setTargetLevel(e.target.value as ELEVEL)}
+                value={targetLevel}
+              >
                 <option value="">Chọn bậc học</option>
                 {Object.keys(ELEVEL).map((item, index) => (
                   <option
@@ -279,13 +287,18 @@ const ResultHighschoolForm = () => {
                 <label htmlFor="">
                   Ngành (<span className="text-[#A9161C]">*</span>)
                 </label>
-                <select name="" id="" className="flex-1">
+                <select
+                  className="flex-1"
+                  onChange={(e) => changeHandler("majorId", e.target.value)}
+                >
                   <option value="">Chọn ngành</option>
-                  {majors.map((item) => (
-                    <option key={item.id} value={item.id}>
-                      {item.name}
-                    </option>
-                  ))}
+                  {majors
+                    .filter((item) => item.educationalLevel === targetLevel)
+                    .map((item) => (
+                      <option key={item.id} value={item.id}>
+                        {item.name}
+                      </option>
+                    ))}
                 </select>
               </div>
             </div>
@@ -297,19 +310,28 @@ const ResultHighschoolForm = () => {
         </div>
         <div className="flex gap-2">
           <label htmlFor="">
-            Môn học (<span className="text-[#A9161C]">*</span>)
+            Khối môn học (<span className="text-[#A9161C]">*</span>)
           </label>
           <div className="flex flex-col gap-2">
             <select
               value={targetSubjectBlock || ""}
               onChange={(e) => setTargetSubjectBlock(e.target.value)}
             >
-              <option value="">Chọn môn học</option>
-              {subjectBlocks.map((item) => (
-                <option key={item.id} value={item.id}>
-                  {item.name}
-                </option>
-              ))}
+              <option value="">Chọn khối môn học</option>
+              {majors
+                .find((item) => item.id === details.majorId)
+                ?.basedOnHighSchoolExamResults?.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
+              {majors
+                .find((item) => item.id === details.majorId)
+                ?.basedOnHighSchoolTranscripts?.map((item) => (
+                  <option key={item.id} value={item.id}>
+                    {item.name}
+                  </option>
+                ))}
             </select>
             <span>
               Bạn vui lòng nhập kết quả học tập các môn tương ứng bên dưới:

@@ -9,6 +9,7 @@ import AcademicForm from "@/pages/academicForm";
 import AdmissionUniversityForm from "@/pages/admissionUniversityForm";
 import ResultHighschoolForm from "@/pages/resultHighschoolForm/View";
 import ResultCompetencyForm from "@/pages/resultCompetencyForm/View";
+import Training from "@/pages/training";
 function App() {
   const router = createBrowserRouter([
     {
@@ -37,6 +38,10 @@ function App() {
         {
           path: "/admission-based-on-competency-test-results",
           element: <ResultCompetencyForm />,
+        },
+        {
+          path: "/training",
+          element: <Training />,
         },
       ],
     },

@@ -49,7 +49,7 @@ export type SubjectBlock = Prettify<
   } & Basic
 >;
 
-export type Major = Prettify<
+export type Majors = Prettify<
   {
     educationalLevel: ELEVEL;
     industryCode: string;
@@ -59,3 +59,12 @@ export type Major = Prettify<
     basedOnHighSchoolTranscripts: Array<SubjectBlock>;
   } & Basic
 >;
+
+export type MemberSchool = {
+  id: string;
+  name: string;
+  link: string;
+  university?: boolean;
+  afterUniversity?: boolean;
+  majors: Array<Majors>;
+};

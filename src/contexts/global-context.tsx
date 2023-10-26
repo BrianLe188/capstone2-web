@@ -5,7 +5,7 @@ import type {
   Gender,
   Priority,
   SubjectBlock,
-  Major,
+  Majors,
   Basic,
 } from "@/utils/types";
 import { ReactElement, createContext, useEffect, useState } from "react";
@@ -19,7 +19,7 @@ type Init = {
   areas: Array<Area>;
   priorities: Array<Priority>;
   subjectBlocks: Array<SubjectBlock>;
-  majors: Array<Major>;
+  majors: Array<Majors>;
   objectAdmissions: Array<Basic>;
 };
 
@@ -39,7 +39,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
   const [areas, setAreas] = useState<Array<Area>>([]);
   const [priorities, setPriorities] = useState<Array<Priority>>([]);
   const [subjectBlocks, setSubjectBlocks] = useState<Array<SubjectBlock>>([]);
-  const [majors, setMajors] = useState<Array<Major>>([]);
+  const [majors, setMajors] = useState<Array<Majors>>([]);
   const [objectAdmissions, setObjectAdmissions] = useState<Array<Basic>>([]);
 
   useEffect(() => {

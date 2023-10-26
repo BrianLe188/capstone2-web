@@ -1,10 +1,10 @@
 import { request } from "./request";
-import type { Majors } from "@/utils/types";
+import type { MemberSchool } from "@/utils/types";
 
-const getMajors = (): Promise<Array<Majors>> =>
+const getMemberSchools = (): Promise<Array<MemberSchool>> =>
   new Promise((rs, rj) => {
     request()
-      .get("/core/majors")
+      .get("/core/member-schools")
       .then(({ data }) => {
         if (data) {
           rs(data?.data);
@@ -15,8 +15,8 @@ const getMajors = (): Promise<Array<Majors>> =>
       });
   });
 
-const MajorService = {
-  getMajors,
+const MemberSchoolService = {
+  getMemberSchools,
 };
 
-export default MajorService;
+export default MemberSchoolService;

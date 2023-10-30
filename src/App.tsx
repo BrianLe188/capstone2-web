@@ -10,6 +10,7 @@ import AdmissionUniversityForm from "@/pages/admissionUniversityForm";
 import ResultHighschoolForm from "@/pages/resultHighschoolForm/View";
 import ResultCompetencyForm from "@/pages/resultCompetencyForm/View";
 import Training from "@/pages/training";
+import TrainingDetail from "@/pages/trainingDetail";
 function App() {
   const router = createBrowserRouter([
     {
@@ -42,6 +43,10 @@ function App() {
         {
           path: "/training",
           element: <Training />,
+        },
+        {
+          path: "/training/detail",
+          element: <TrainingDetail />,
         },
       ],
     },

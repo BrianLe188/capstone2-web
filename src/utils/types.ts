@@ -57,6 +57,7 @@ export type Majors = Prettify<
     memberSchool: any;
     basedOnHighSchoolExamResults: Array<SubjectBlock>;
     basedOnHighSchoolTranscripts: Array<SubjectBlock>;
+    subMajors: Array<any>;
   } & Basic
 >;
 

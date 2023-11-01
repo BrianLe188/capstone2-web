@@ -26,6 +26,7 @@ const ResultCompetencyForm = () => {
     nameOfTheUniversityOrganizingTheExam: null,
     resultOfExam: null,
     majorId: null,
+    subMajorId: null,
   });
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
     null
@@ -410,6 +411,24 @@ const ResultCompetencyForm = () => {
             </select>
           </div>
           <span className="grow">(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
+        </div>
+        <div className="flex flex-1 gap-2">
+          <label htmlFor="">
+            Chuyên ngành (<span className="text-[#A9161C]">*</span>)
+          </label>
+          <select
+            className="flex-1"
+            onChange={(e) => changeHandler("subMajorId", e.target.value)}
+          >
+            <option value="">Chọn chuyên ngành</option>
+            {majors
+              .find((item) => item.id === details.majorId)
+              ?.subMajors?.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         <div className="flex gap-7">

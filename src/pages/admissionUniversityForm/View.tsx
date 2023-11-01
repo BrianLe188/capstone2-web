@@ -23,6 +23,7 @@ const AdmissionUniversityForm = () => {
     objectAdmission: null,
     majorId: null,
     highschoolAddress: null,
+    subMajorId: null,
   });
 
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
@@ -292,6 +293,24 @@ const AdmissionUniversityForm = () => {
               đến 1 Năm học theo quy chế của Bộ Giáo Dục và Đào Tạo.)
             </span>
           </div>
+        </div>
+        <div className="flex flex-1 gap-2">
+          <label htmlFor="">
+            Chuyên ngành (<span className="text-[#A9161C]">*</span>)
+          </label>
+          <select
+            className="flex-1"
+            onChange={(e) => changeHandler("subMajorId", e.target.value)}
+          >
+            <option value="">Chọn chuyên ngành</option>
+            {majors
+              .find((item) => item.id === details.majorId)
+              ?.subMajors?.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.name}
+                </option>
+              ))}
+          </select>
         </div>
 
         <div className="flex gap-7">

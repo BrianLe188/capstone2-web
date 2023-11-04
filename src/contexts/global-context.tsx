@@ -7,12 +7,14 @@ import type {
   SubjectBlock,
   Majors,
   Basic,
+  User,
 } from "@/utils/types";
 import { ReactElement, createContext, useEffect, useState } from "react";
 import PriorityService from "@/services/priorities";
 import SubjectBlockService from "@/services/subject-blocks";
 import MajorService from "@/services/majors";
 import ObjectAdmissionService from "@/services/object-admissions";
+import UserService from "@/services/users";
 
 type Init = {
   genders: Array<Gender>;
@@ -21,6 +23,7 @@ type Init = {
   subjectBlocks: Array<SubjectBlock>;
   majors: Array<Majors>;
   objectAdmissions: Array<Basic>;
+  admissionStaffs: Array<User>;
 };
 
 const initialState: Init = {
@@ -30,6 +33,7 @@ const initialState: Init = {
   subjectBlocks: [],
   majors: [],
   objectAdmissions: [],
+  admissionStaffs: [],
 };
 
 export const GlobalContext = createContext(initialState);
@@ -41,6 +45,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
   const [subjectBlocks, setSubjectBlocks] = useState<Array<SubjectBlock>>([]);
   const [majors, setMajors] = useState<Array<Majors>>([]);
   const [objectAdmissions, setObjectAdmissions] = useState<Array<Basic>>([]);
+  const [admissionStaffs, setAdmissionStaffs] = useState<Array<User>>([]);
 
   useEffect(() => {
     loadGenders();
@@ -49,7 +54,21 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
     loadSubjectBlocks();
     loadMajors();
     loadObjectAdmissions();
+    loadAdmissionStaffs();
   }, []);
+
+  const loadAdmissionStaffs = async () => {
+    const res = await UserService.getUsers({
+      body: {
+        role: {
+          name: "admission-staff",
+        },
+      },
+    });
+    if (res) {
+      setAdmissionStaffs(res);
+    }
+  };
 
   const loadObjectAdmissions = async () => {
     const res = await ObjectAdmissionService.getObjectAdmissions();
@@ -102,6 +121,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
         subjectBlocks,
         majors,
         objectAdmissions,
+        admissionStaffs,
       }}
     >
       {children}

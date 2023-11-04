@@ -1,3 +1,3 @@
-import FileButton from "./View";
+import File from "./View";
 
-export default FileButton;
+export default File;

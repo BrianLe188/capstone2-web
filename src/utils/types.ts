@@ -69,3 +69,16 @@ export type MemberSchool = {
   afterUniversity?: boolean;
   majors: Array<Majors>;
 };
+
+export type User = {
+  id: string;
+  email: string;
+  password: string;
+  fullName: string;
+  role: {
+    id: string;
+    name: string;
+  };
+  socket: string;
+  ip: string;
+};

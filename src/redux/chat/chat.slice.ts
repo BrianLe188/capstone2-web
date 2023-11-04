@@ -14,7 +14,7 @@ export const chatSlice = createSlice({
   reducers: {
     addMessage: (
       state,
-      action: PayloadAction<Prettify<Message & { file: number | null }>>
+      action: PayloadAction<Prettify<Message & { file: string | null }>>
     ) => {
       const { type, content } = action.payload;
       state.advises.push({ type, content });

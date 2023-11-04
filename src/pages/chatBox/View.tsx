@@ -1,6 +1,6 @@
-import { menuIcon, plusIcon, sendIcon } from "@/assets";
+import { menuIcon, sendIcon } from "@/assets";
 import { optionChatBox } from "@/contains";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { EMessageType } from "@/utils/enums";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
 import { addMessage } from "@/redux/chat/chat.slice";
@@ -11,13 +11,15 @@ import { useSearchParams } from "react-router-dom";
 import { twMerge } from "tailwind-merge";
 import FileService from "@/services/files";
 import type { FileType } from "@/utils/types";
-import FileButton from "./components/file";
+import File from "./components/file";
+import { GlobalContext } from "@/contexts/global-context";
+import Staff from "./components/staff";
 
 const chatTabs = [
   {
     id: 1,
     key: "advice",
-    name: "Tư vấn",
+    name: "Tư vấn viên",
   },
   {
     id: 2,
@@ -34,7 +36,8 @@ const ChatBox = () => {
   const queryTab = search.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [files, setFiles] = useState<Array<FileType>>([]);
-  const [targetFile, setTargetFile] = useState<number | null>(null);
+  const [target, setTarget] = useState<string | null>(null);
+  const { admissionStaffs } = useContext(GlobalContext);
 
   useEffect(() => {
     if (queryTab) {
@@ -69,7 +72,7 @@ const ChatBox = () => {
       addMessage({
         type: EMessageType.USER,
         content: message,
-        file: targetFile,
+        file: target,
       })
     );
     setMessage("");
@@ -110,31 +113,41 @@ const ChatBox = () => {
                 </button>
               ))}
             </div>
-            <div className="flex justify-center py-[30px]">
-              <div className="flex items-center justify-center py-[10px] rounded-full border-solid border-[#cccccc] border-[1px] gap-[8px] w-3/4 cursor-pointer">
-                <img src={plusIcon} />
-                <span>Trò chuyện mới</span>
-              </div>
-            </div>
           </div>
           <div className="p-[15px] flex-1 h-[45%]">
-            <h3>Lịch sử trò chuyện</h3>
             <ul className="h-[90%] overflow-auto">
-              {files.map((item) => (
-                <li
-                  key={item.id}
-                  onClick={() => {
-                    if (item.id === targetFile) {
-                      setTargetFile(null);
-                    } else {
-                      setTargetFile(item.id);
-                    }
-                  }}
-                  className="mt-2"
-                >
-                  <FileButton data={item} active={item.id === targetFile} />
-                </li>
-              ))}
+              {activeTab === "advice" &&
+                admissionStaffs.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => {
+                      if (item.id === target) {
+                        setTarget(null);
+                      } else {
+                        setTarget(item.id);
+                      }
+                    }}
+                    className="mt-2"
+                  >
+                    <Staff data={item} active={item.id === target} />
+                  </li>
+                ))}
+              {activeTab === "existing_document" &&
+                files.map((item) => (
+                  <li
+                    key={item.id}
+                    onClick={() => {
+                      if (item.id === target) {
+                        setTarget(null);
+                      } else {
+                        setTarget(item.id);
+                      }
+                    }}
+                    className="mt-2"
+                  >
+                    <File data={item} active={item.id === target} />
+                  </li>
+                ))}
             </ul>
           </div>
           <div className="flex flex-col gap-[10px] p-[15px] border-solid border-[#cccccc] border-t-[1px]">
@@ -158,7 +171,12 @@ const ChatBox = () => {
             <Message message={item} />
           ))}
           <div className="absolute bottom-0 p-5 w-full right-0 px-[30px] bg-[#1b1b1b]">
-            <div className="bg-[#cccccc] flex items-center rounded-[6px] px-[15px] py-[10px]">
+            <div
+              className={twMerge(
+                "bg-[#cccccc] items-center rounded-[6px] px-[15px] py-[10px] hidden",
+                target && "flex"
+              )}
+            >
               <input
                 type="text"
                 className="bg-transparent outline-none text-black flex-1"

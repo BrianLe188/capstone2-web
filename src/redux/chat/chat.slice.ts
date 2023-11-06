@@ -22,9 +22,12 @@ export const chatSlice = createSlice({
     receiveMessage: (state, action: PayloadAction<Message>) => {
       state.advises.push(action.payload);
     },
+    connectRoom: (state, action: PayloadAction<{ target: string }>) => {
+      console.log(state, action);
+    },
   },
 });
 
-export const { addMessage, receiveMessage } = chatSlice.actions;
+export const { addMessage, receiveMessage, connectRoom } = chatSlice.actions;
 
 export default chatSlice.reducer;

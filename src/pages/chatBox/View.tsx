@@ -3,7 +3,7 @@ import { optionChatBox } from "@/contains";
 import { useContext, useEffect, useState } from "react";
 import { EMessageType } from "@/utils/enums";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addMessage } from "@/redux/chat/chat.slice";
+import { addMessage, connectRoom } from "@/redux/chat/chat.slice";
 import { chatSelector } from "@/redux/selectors";
 import Message from "@/components/message";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -125,6 +125,11 @@ const ChatBox = () => {
                         setTarget(null);
                       } else {
                         setTarget(item.id);
+                        dispatch(
+                          connectRoom({
+                            target: item.id,
+                          })
+                        );
                       }
                     }}
                     className="mt-2"

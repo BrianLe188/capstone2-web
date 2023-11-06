@@ -28,6 +28,10 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
         socket.emit("chat", action.payload);
         break;
       }
+      case "chat/connectRoom": {
+        socket.emit("connect_room", action.payload);
+        break;
+      }
     }
     return next(action);
   };

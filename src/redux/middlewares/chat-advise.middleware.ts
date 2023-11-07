@@ -13,9 +13,9 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   socket.emit("assign_socket", {});
 
   socket.on("assign_token", (_token) => {
-    if (!token) {
-      localStorage.setItem("token", _token);
-    }
+    // if (!token) {
+    localStorage.setItem("token", _token);
+    // }
   });
 
   socket.on("receive_message", (data) => {
@@ -25,11 +25,17 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   return (action: AnyAction) => {
     switch (action.type) {
       case "chat/addMessage": {
-        socket.emit("chat", action.payload);
+        socket.emit("chat", {
+          ...action.payload,
+          token: localStorage.getItem("token"),
+        });
         break;
       }
       case "chat/connectRoom": {
-        socket.emit("connect_room", action.payload);
+        socket.emit("connect_room", {
+          ...action.payload,
+          token: localStorage.getItem("token"),
+        });
         break;
       }
     }

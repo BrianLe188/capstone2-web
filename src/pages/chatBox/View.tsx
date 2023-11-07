@@ -73,6 +73,7 @@ const ChatBox = () => {
         type: EMessageType.USER,
         content: message,
         file: target,
+        target,
       })
     );
     setMessage("");

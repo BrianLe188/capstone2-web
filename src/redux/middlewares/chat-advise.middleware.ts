@@ -1,15 +1,14 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import io from "socket.io-client";
 import { receiveMessage } from "../chat/chat.slice";
+const token = window.localStorage.getItem("token");
+const socket = io(`${import.meta.env.VITE_GATEWAY_SOCKET}/advise`, {
+  extraHeaders: {
+    token: token || "",
+  },
+});
 
 const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
-  const token = window.localStorage.getItem("token");
-  const socket = io(`${import.meta.env.VITE_GATEWAY_SOCKET}/advise`, {
-    extraHeaders: {
-      token: token || "",
-    },
-  });
-
   socket.emit("assign_socket", {});
 
   socket.on("assign_token", (_token) => {
@@ -19,6 +18,7 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   });
 
   socket.on("receive_message", (data) => {
+    console.log(data);
     store.dispatch(receiveMessage(data));
   });
 

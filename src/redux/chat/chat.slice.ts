@@ -18,8 +18,9 @@ export const chatSlice = createSlice({
         Prettify<Message & { file: string | null; target: string | null }>
       >
     ) => {
-      const { type, content } = action.payload;
-      state.advises.push({ type, content });
+      console.log(state, action);
+      // const { type, content } = action.payload;
+      // state.advises.push({ type, content });
     },
     receiveMessage: (state, action: PayloadAction<Message>) => {
       state.advises.push(action.payload);

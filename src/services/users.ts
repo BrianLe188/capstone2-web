@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from "@/utils/types";
 import { request } from "./request";
+import qs from "querystring";
 
 const getUsers = (req: { body: any }): Promise<Array<User>> =>
   new Promise((rs, rj) => {
@@ -16,8 +17,24 @@ const getUsers = (req: { body: any }): Promise<Array<User>> =>
       });
   });
 
+const giveScore = (req: { params: { id: string }; query: any }) =>
+  new Promise((rs, rj) => {
+    const querystring = qs.stringify(req.query);
+    request()
+      .post(`/auth/users/give-score/${req.params.id}?${querystring}`)
+      .then(({ data }) => {
+        if (data) {
+          rs(data?.data);
+        }
+      })
+      .catch((error) => {
+        rj(error);
+      });
+  });
+
 const UserService = {
   getUsers,
+  giveScore,
 };
 
 export default UserService;

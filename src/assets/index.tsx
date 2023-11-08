@@ -38,6 +38,12 @@ import userIcon from "./userIcon.svg";
 import lockIconRed from "./lockIconRed.svg";
 import userIconRed from "./userIconRed.svg";
 import documentIcon from "./document.svg";
+import great from "./great.svg";
+import verygood from "./very-good.svg";
+import good from "./good.svg";
+import fine from "./fine.svg";
+import bad from "./bad.svg";
+import verybad from "./very-bad.svg";
 
 export {
   eyeIcon,
@@ -79,4 +85,10 @@ export {
   trashIcon,
   uploadIcon,
   documentIcon,
+  great,
+  verygood,
+  good,
+  fine,
+  bad,
+  verybad,
 };

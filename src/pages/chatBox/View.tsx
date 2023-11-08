@@ -3,7 +3,7 @@ import { optionChatBox } from "@/contains";
 import { useContext, useEffect, useState } from "react";
 import { EMessageType } from "@/utils/enums";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addMessage, connectRoom } from "@/redux/chat/chat.slice";
+import { addMessage, connectRoom, leaveRoom } from "@/redux/chat/chat.slice";
 import { chatSelector } from "@/redux/selectors";
 import Message from "@/components/message";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -14,6 +14,8 @@ import type { FileType } from "@/utils/types";
 import File from "./components/file";
 import { GlobalContext } from "@/contexts/global-context";
 import Staff from "./components/staff";
+import { createPortal } from "react-dom";
+import Rating from "./components/rating";
 
 const chatTabs = [
   {
@@ -38,6 +40,7 @@ const ChatBox = () => {
   const [files, setFiles] = useState<Array<FileType>>([]);
   const [target, setTarget] = useState<string | null>(null);
   const { admissionStaffs } = useContext(GlobalContext);
+  const [showRating, setShowRating] = useState(false);
 
   useEffect(() => {
     if (queryTab) {
@@ -124,6 +127,11 @@ const ChatBox = () => {
                     onClick={() => {
                       if (item.id === target) {
                         setTarget(null);
+                        dispatch(
+                          leaveRoom({
+                            target: item.id,
+                          })
+                        );
                       } else {
                         setTarget(item.id);
                         dispatch(
@@ -177,28 +185,42 @@ const ChatBox = () => {
             <Message message={item} />
           ))}
           <div className="absolute bottom-0 p-5 w-full right-0 px-[30px] bg-[#1b1b1b]">
-            <div
-              className={twMerge(
-                "bg-[#cccccc] items-center rounded-[6px] px-[15px] py-[10px] hidden",
-                target && "flex"
-              )}
-            >
-              <input
-                type="text"
-                className="bg-transparent outline-none text-black flex-1"
-                value={message}
-                onChange={(e) => setMessage(e.target.value)}
-                onKeyDown={(e) => handleEnterPress(e)}
-              />
-              <img
-                src={sendIcon}
-                className="cursor-pointer"
-                onClick={() => handleSubmit()}
-              />
+            <div className={twMerge("hidden", target && "block")}>
+              <div className="flex justify-center mb-2">
+                <button
+                  className="rounded-md bg-[#A62823] p-2"
+                  onClick={() => setShowRating(true)}
+                >
+                  Kết thúc
+                </button>
+              </div>
+              <div
+                className={twMerge(
+                  "bg-[#cccccc] items-center rounded-[6px] px-[15px] py-[10px] flex"
+                )}
+              >
+                <input
+                  type="text"
+                  className="bg-transparent outline-none text-black flex-1"
+                  value={message}
+                  onChange={(e) => setMessage(e.target.value)}
+                  onKeyDown={(e) => handleEnterPress(e)}
+                />
+                <img
+                  src={sendIcon}
+                  className="cursor-pointer"
+                  onClick={() => handleSubmit()}
+                />
+              </div>
             </div>
           </div>
         </ScrollToBottom>
       </div>
+      {showRating &&
+        createPortal(
+          <Rating id={target} close={() => setShowRating(false)} />,
+          document.body
+        )}
     </div>
   );
 };

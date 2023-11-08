@@ -28,9 +28,13 @@ export const chatSlice = createSlice({
     connectRoom: (state, action: PayloadAction<{ target: string }>) => {
       console.log(state, action);
     },
+    leaveRoom: (state, action: PayloadAction<{ target: string }>) => {
+      console.log(state, action);
+    },
   },
 });
 
-export const { addMessage, receiveMessage, connectRoom } = chatSlice.actions;
+export const { addMessage, receiveMessage, connectRoom, leaveRoom } =
+  chatSlice.actions;
 
 export default chatSlice.reducer;

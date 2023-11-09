@@ -16,6 +16,7 @@ import { GlobalContext } from "@/contexts/global-context";
 import Staff from "./components/staff";
 import { createPortal } from "react-dom";
 import Rating from "./components/rating";
+import { v4 } from "uuid";
 
 const chatTabs = [
   {
@@ -39,7 +40,7 @@ const ChatBox = () => {
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [files, setFiles] = useState<Array<FileType>>([]);
   const [target, setTarget] = useState<string | null>(null);
-  const { admissionStaffs } = useContext(GlobalContext);
+  const { admissionStaffs, auth } = useContext(GlobalContext);
   const [showRating, setShowRating] = useState(false);
 
   useEffect(() => {
@@ -182,7 +183,11 @@ const ChatBox = () => {
             <span className="font-bold text-[52px]">GPT-DTU</span>
           </h1>
           {messages.map((item) => (
-            <Message message={item} />
+            <Message
+              key={v4()}
+              message={item}
+              isMe={auth?.id === item.sender}
+            />
           ))}
           <div className="absolute bottom-0 p-5 w-full right-0 px-[30px] bg-[#1b1b1b]">
             <div className={twMerge("hidden", target && "block")}>

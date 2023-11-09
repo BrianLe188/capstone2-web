@@ -3,9 +3,11 @@ import { Message, Prettify } from "@/utils/types";
 
 export interface EChatState {
   advises: Message[];
+  token: string;
 }
 const initialState: EChatState = {
   advises: [],
+  token: "",
 };
 
 export const chatSlice = createSlice({
@@ -21,8 +23,6 @@ export const chatSlice = createSlice({
       >
     ) => {
       console.log(state, action);
-      // const { type, content } = action.payload;
-      // state.advises.push({ type, content });
     },
     receiveMessage: (state, action: PayloadAction<Message>) => {
       state.advises.push(action.payload);
@@ -33,10 +33,18 @@ export const chatSlice = createSlice({
     leaveRoom: (state, action: PayloadAction<{ target: string }>) => {
       console.log(state, action);
     },
+    assignToken: (state, action: PayloadAction<{ token: string }>) => {
+      state.token = action.payload.token;
+    },
   },
 });
 
-export const { addMessage, receiveMessage, connectRoom, leaveRoom } =
-  chatSlice.actions;
+export const {
+  addMessage,
+  receiveMessage,
+  connectRoom,
+  leaveRoom,
+  assignToken,
+} = chatSlice.actions;
 
 export default chatSlice.reducer;

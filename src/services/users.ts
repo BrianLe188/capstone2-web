@@ -32,9 +32,24 @@ const giveScore = (req: { params: { id: string }; query: any }) =>
       });
   });
 
+const verify = () =>
+  new Promise((rs, rj) => {
+    request()
+      .get("/auth/users/verify")
+      .then(({ data }) => {
+        if (data) {
+          rs(data);
+        }
+      })
+      .catch((error) => {
+        rj(error);
+      });
+  });
+
 const UserService = {
   getUsers,
   giveScore,
+  verify,
 };
 
 export default UserService;

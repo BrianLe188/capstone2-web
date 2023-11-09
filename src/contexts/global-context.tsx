@@ -15,6 +15,8 @@ import SubjectBlockService from "@/services/subject-blocks";
 import MajorService from "@/services/majors";
 import ObjectAdmissionService from "@/services/object-admissions";
 import UserService from "@/services/users";
+import { useAppSelector } from "@/redux/hooks";
+import { chatSelector } from "@/redux/selectors";
 
 type Init = {
   genders: Array<Gender>;
@@ -24,6 +26,10 @@ type Init = {
   majors: Array<Majors>;
   objectAdmissions: Array<Basic>;
   admissionStaffs: Array<User>;
+  auth: {
+    id: string;
+    email: string;
+  };
 };
 
 const initialState: Init = {
@@ -34,11 +40,16 @@ const initialState: Init = {
   majors: [],
   objectAdmissions: [],
   admissionStaffs: [],
+  auth: {
+    id: "",
+    email: "",
+  },
 };
 
 export const GlobalContext = createContext(initialState);
 
 const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
+  const { token } = useAppSelector(chatSelector);
   const [genders, setGenders] = useState<Array<Gender>>([]);
   const [areas, setAreas] = useState<Array<Area>>([]);
   const [priorities, setPriorities] = useState<Array<Priority>>([]);
@@ -46,6 +57,10 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
   const [majors, setMajors] = useState<Array<Majors>>([]);
   const [objectAdmissions, setObjectAdmissions] = useState<Array<Basic>>([]);
   const [admissionStaffs, setAdmissionStaffs] = useState<Array<User>>([]);
+  const [auth, setAuth] = useState({
+    id: "",
+    email: "",
+  });
 
   useEffect(() => {
     loadGenders();
@@ -56,6 +71,25 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
     loadObjectAdmissions();
     loadAdmissionStaffs();
   }, []);
+
+  useEffect(() => {
+    let _token: string = "";
+    if (token) {
+      _token = token;
+    } else {
+      _token = localStorage.getItem("token") as string;
+    }
+    if (_token) {
+      getAuth();
+    }
+  }, [token]);
+
+  const getAuth = async () => {
+    const v = (await UserService.verify()) as { id: string; email: string };
+    if (v) {
+      setAuth(v);
+    }
+  };
 
   const loadAdmissionStaffs = async () => {
     const res = await UserService.getUsers({
@@ -122,6 +156,7 @@ const GlobalContextProvider = ({ children }: { children: ReactElement }) => {
         majors,
         objectAdmissions,
         admissionStaffs,
+        auth,
       }}
     >
       {children}

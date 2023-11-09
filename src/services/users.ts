@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { User } from "@/utils/types";
 import { request } from "./request";
-import qs from "querystring";
+import qs from "query-string";
 
 const getUsers = (req: { body: any }): Promise<Array<User>> =>
   new Promise((rs, rj) => {
@@ -21,7 +21,7 @@ const giveScore = (req: { params: { id: string }; query: any }) =>
   new Promise((rs, rj) => {
     const querystring = qs.stringify(req.query);
     request()
-      .post(`/auth/users/give-score/${req.params.id}?${querystring}`)
+      .put(`/auth/users/give-score/${req.params.id}?${querystring}`)
       .then(({ data }) => {
         if (data) {
           rs(data?.data);

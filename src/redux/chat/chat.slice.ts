@@ -15,7 +15,9 @@ export const chatSlice = createSlice({
     addMessage: (
       state,
       action: PayloadAction<
-        Prettify<Message & { file: string | null; target: string | null }>
+        Partial<
+          Prettify<Message & { file: string | null; target: string | null }>
+        >
       >
     ) => {
       console.log(state, action);

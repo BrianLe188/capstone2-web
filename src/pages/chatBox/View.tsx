@@ -218,7 +218,15 @@ const ChatBox = () => {
       </div>
       {showRating &&
         createPortal(
-          <Rating id={target} close={() => setShowRating(false)} />,
+          <Rating
+            id={target}
+            close={(e?: "reset") => {
+              if (e) {
+                setTarget(null);
+              }
+              setShowRating(false);
+            }}
+          />,
           document.body
         )}
     </div>

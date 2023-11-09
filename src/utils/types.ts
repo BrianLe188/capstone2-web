@@ -9,6 +9,8 @@ export type Prettify<T> = {
 export type Message = {
   type: EMessageType;
   content: string;
+  sender: string;
+  room: string;
 };
 
 export type FileType = {

@@ -43,7 +43,13 @@ const scores = [
   },
 ];
 
-const View = ({ id, close }: { id: string | null; close: () => void }) => {
+const View = ({
+  id,
+  close,
+}: {
+  id: string | null;
+  close: (e?: "reset") => void;
+}) => {
   const [score, setScore] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
 
@@ -63,14 +69,14 @@ const View = ({ id, close }: { id: string | null; close: () => void }) => {
         console.log(error);
       } finally {
         setLoading(false);
-        close();
+        close("reset");
       }
     }
   };
 
   return (
     <div className="absolute w-3/5 bg-white top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-lg py-10 px-14 shadow-2xl shadow-[#A62823]">
-      <button className="absolute top-2 right-2" onClick={close}>
+      <button className="absolute top-2 right-2" onClick={() => close()}>
         X
       </button>
       <div className="text-center mb-5">

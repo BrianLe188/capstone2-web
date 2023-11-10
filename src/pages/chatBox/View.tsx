@@ -17,6 +17,7 @@ import Staff from "./components/staff";
 import { createPortal } from "react-dom";
 import Rating from "./components/rating";
 import { v4 } from "uuid";
+import { fetchMessageByTarget } from "@/redux/chat/chat.async";
 
 const chatTabs = [
   {
@@ -35,7 +36,7 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const dispatch = useAppDispatch();
   const [search, setSearch] = useSearchParams();
-  const { advises: messages } = useAppSelector(chatSelector);
+  const { messages } = useAppSelector(chatSelector);
   const queryTab = search.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [files, setFiles] = useState<Array<FileType>>([]);
@@ -59,6 +60,13 @@ const ChatBox = () => {
       loadFiles();
     }
   }, [queryTab]);
+
+  useEffect(() => {
+    if (target) {
+      dispatch(fetchMessageByTarget(target));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [target]);
 
   const loadFiles = async () => {
     try {
@@ -177,7 +185,7 @@ const ChatBox = () => {
             ))}
           </div>
         </div>
-        <ScrollToBottom className="relative flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-20 overflow-auto">
+        <ScrollToBottom className="relative flex-1 h-full text-white bg-[#1B1B1B] overflow-y-auto p-4 pb-32 overflow-auto">
           <h1 className="text-[#A62823] text-center text-[40px] font-medium">
             GIẢI ĐÁP THẮC MẮC TUYỂN SINH CÙNG <br />{" "}
             <span className="font-bold text-[52px]">GPT-DTU</span>

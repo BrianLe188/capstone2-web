@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Message, Prettify } from "@/utils/types";
+import { fetchMessageByTarget } from "./chat.async";
 
 export interface EChatState {
-  advises: Message[];
+  messages: Message[];
   token: string;
 }
 const initialState: EChatState = {
-  advises: [],
+  messages: [],
   token: "",
 };
 
@@ -25,7 +26,7 @@ export const chatSlice = createSlice({
       console.log(state, action);
     },
     receiveMessage: (state, action: PayloadAction<Message>) => {
-      state.advises.push(action.payload);
+      state.messages.push(action.payload);
     },
     connectRoom: (state, action: PayloadAction<{ target: string }>) => {
       console.log(state, action);
@@ -36,6 +37,14 @@ export const chatSlice = createSlice({
     assignToken: (state, action: PayloadAction<{ token: string }>) => {
       state.token = action.payload.token;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addCase(
+      fetchMessageByTarget.fulfilled,
+      (state, action: PayloadAction<Message[]>) => {
+        state.messages = action.payload;
+      }
+    );
   },
 });
 

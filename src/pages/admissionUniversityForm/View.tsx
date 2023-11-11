@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import SelectLocation from "@/components/select-location";
 import "./admissionUniversityForm.css";
 import locations from "@/assets/locations";

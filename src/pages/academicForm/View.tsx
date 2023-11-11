@@ -39,6 +39,7 @@ const AcademicForm = () => {
   const addressToReceiveAdmissionNoticeRef = useRef<{ value: () => string }>(
     null
   );
+  const [has, setHas] = useState(false);
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
 
   const subjectInBlock: { id: string; name: string }[] = useMemo(
@@ -82,8 +83,8 @@ const AcademicForm = () => {
       toast.success(
         "Application code is send to your email or phone number, please check it"
       );
-    } catch (error) {
-      toast.error("Something went wrong!");
+    } catch (error: any) {
+      toast.error(error.response.data.error);
     }
   };
 
@@ -92,6 +93,28 @@ const AcademicForm = () => {
       <h1 className="text-[#A62823] font-semibold text-3xl">
         ĐĂNG KÝ XÉT TUYỂN BẰNG HỌC BẠ THPT
       </h1>
+      <label htmlFor="" className="flex items-center gap-2">
+        Bạn đã có đơn xét tuyển chưa?
+        <input
+          type="checkbox"
+          name=""
+          id=""
+          checked={has}
+          onChange={() => setHas((state) => !state)}
+        />
+      </label>
+      {has && (
+        <div>
+          <p>
+            Nếu bạn đã có đơn xét tuyển và muốn cập nhật thông tin, vui lòng
+            nhập mã
+          </p>
+          <input type="text" />
+          <button className="border rounded-md bg-[#A62823] text-white p-1 ml-2">
+            Xác nhận
+          </button>
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           CHỌN PHƯƠNG ÁN XÉT TUYỂN
@@ -210,7 +233,6 @@ const AcademicForm = () => {
                 }
               />
               <span>(Nhập đầy đủ số nhà, tên đường, thôn/tổ)</span>
-              SEle
             </div>
           </div>
         </div>

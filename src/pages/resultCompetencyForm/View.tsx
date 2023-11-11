@@ -34,6 +34,7 @@ const ResultCompetencyForm = () => {
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
   const permanentResidenceRef = useRef<{ value: () => string }>(null);
   const birthplaceRef = useRef<{ value: () => string }>(null);
+  const [has, setHas] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeHandler = (name: string, value: any) => {
@@ -67,8 +68,8 @@ const ResultCompetencyForm = () => {
       toast.success(
         "Application code is send to your email or phone number, please check it"
       );
-    } catch (error) {
-      toast.error("Something went wrong!");
+    } catch (error: any) {
+      toast.error(error.response.data.error);
     }
   };
 
@@ -77,6 +78,28 @@ const ResultCompetencyForm = () => {
       <h1 className="text-[#A62823] font-semibold text-3xl">
         ĐĂNG KÝ XÉT TUYỂN THEO KẾT QUẢ THI ĐÁNH GIÁ NĂNG LỰC
       </h1>
+      <label htmlFor="" className="flex items-center gap-2">
+        Bạn đã có đơn xét tuyển chưa?
+        <input
+          type="checkbox"
+          name=""
+          id=""
+          checked={has}
+          onChange={() => setHas((state) => !state)}
+        />
+      </label>
+      {has && (
+        <div>
+          <p>
+            Nếu bạn đã có đơn xét tuyển và muốn cập nhật thông tin, vui lòng
+            nhập mã
+          </p>
+          <input type="text" />
+          <button className="border rounded-md bg-[#A62823] text-white p-1 ml-2">
+            Xác nhận
+          </button>
+        </div>
+      )}
       <div className="flex flex-col gap-2">
         <h2 className="bg-[#A62823] text-white font-semibold text-lg px-4">
           THÔNG TIN HỒ SƠ

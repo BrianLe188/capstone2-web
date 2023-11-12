@@ -40,6 +40,7 @@ const AcademicForm = () => {
     null
   );
   const [has, setHas] = useState(false);
+  const [code, setCode] = useState("");
   const highschoolAddressRef = useRef<{ value: () => string }>(null);
 
   const subjectInBlock: { id: string; name: string }[] = useMemo(
@@ -88,6 +89,25 @@ const AcademicForm = () => {
     }
   };
 
+  const handleGetByCode = async () => {
+    try {
+      const res: any = await AdmissionService.getRegistrationByCode({
+        query: {
+          code,
+        },
+      });
+      if (res) {
+        const { candidate, ...rest } = res;
+        setDetails({
+          ...rest,
+          ...candidate,
+        });
+      }
+    } catch (error: any) {
+      toast.error(error.response.data.error);
+    }
+  };
+
   return (
     <div className="flex flex-col bg-[#f6f6f6] gap-2 pt-4 px-4">
       <h1 className="text-[#A62823] font-semibold text-3xl">
@@ -97,8 +117,6 @@ const AcademicForm = () => {
         Bạn đã có đơn xét tuyển chưa?
         <input
           type="checkbox"
-          name=""
-          id=""
           checked={has}
           onChange={() => setHas((state) => !state)}
         />
@@ -109,8 +127,15 @@ const AcademicForm = () => {
             Nếu bạn đã có đơn xét tuyển và muốn cập nhật thông tin, vui lòng
             nhập mã
           </p>
-          <input type="text" />
-          <button className="border rounded-md bg-[#A62823] text-white p-1 ml-2">
+          <input
+            type="text"
+            onChange={(e) => setCode(e.target.value)}
+            value={code}
+          />
+          <button
+            className="border rounded-md bg-[#A62823] text-white p-1 ml-2"
+            onClick={handleGetByCode}
+          >
             Xác nhận
           </button>
         </div>
@@ -345,6 +370,7 @@ const AcademicForm = () => {
                 </label>
                 <select
                   className="flex-1"
+                  value={details.majorId || ""}
                   onChange={(e) => changeHandler("majorId", e.target.value)}
                 >
                   <option value="">Chọn ngành</option>
@@ -363,6 +389,7 @@ const AcademicForm = () => {
                 </label>
                 <select
                   className="flex-1"
+                  value={details.subMajorId || ""}
                   onChange={(e) => changeHandler("subMajorId", e.target.value)}
                 >
                   <option value="">Chọn chuyên ngành</option>

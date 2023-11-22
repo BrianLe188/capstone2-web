@@ -3,7 +3,13 @@ import { optionChatBox } from "@/contains";
 import { useContext, useEffect, useState } from "react";
 import { EMessageType } from "@/utils/enums";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { addMessage, connectRoom, leaveRoom } from "@/redux/chat/chat.slice";
+import {
+  addMessage,
+  connectRoom,
+  hideTyping,
+  leaveRoom,
+  typing,
+} from "@/redux/chat/chat.slice";
 import { chatSelector } from "@/redux/selectors";
 import Message from "@/components/message";
 import ScrollToBottom from "react-scroll-to-bottom";
@@ -36,13 +42,23 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const dispatch = useAppDispatch();
   const [search, setSearch] = useSearchParams();
-  const { messages } = useAppSelector(chatSelector);
+  const { messages, someone_typing } = useAppSelector(chatSelector);
   const queryTab = search.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [files, setFiles] = useState<Array<FileType>>([]);
   const [target, setTarget] = useState<string | null>(null);
   const { admissionStaffs, auth } = useContext(GlobalContext);
   const [showRating, setShowRating] = useState(false);
+
+  useEffect(() => {
+    let timer: any;
+    if (someone_typing) {
+      timer = setTimeout(() => {
+        dispatch(hideTyping({}));
+      }, 1000);
+    }
+    return () => clearTimeout(timer);
+  }, [someone_typing]);
 
   useEffect(() => {
     if (queryTab) {
@@ -77,6 +93,14 @@ const ChatBox = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const handleTyping = () => {
+    dispatch(
+      typing({
+        target,
+      })
+    );
   };
 
   const handleSubmit = () => {
@@ -198,6 +222,11 @@ const ChatBox = () => {
             />
           ))}
           <div className="absolute bottom-0 p-5 w-full right-0 px-[30px] bg-[#1b1b1b]">
+            {someone_typing && (
+              <div className="absolute right-2">
+                <p>Ai đó đang soạn...</p>
+              </div>
+            )}
             <div className={twMerge("hidden", target && "block")}>
               <div className="flex justify-center mb-2">
                 <button
@@ -216,7 +245,10 @@ const ChatBox = () => {
                   type="text"
                   className="bg-transparent outline-none text-black flex-1"
                   value={message}
-                  onChange={(e) => setMessage(e.target.value)}
+                  onChange={(e) => {
+                    handleTyping();
+                    setMessage(e.target.value);
+                  }}
                   onKeyDown={(e) => handleEnterPress(e)}
                 />
                 <img

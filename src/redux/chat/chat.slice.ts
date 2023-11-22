@@ -5,10 +5,12 @@ import { fetchMessageByTarget } from "./chat.async";
 export interface EChatState {
   messages: Message[];
   token: string;
+  someone_typing: boolean;
 }
 const initialState: EChatState = {
   messages: [],
   token: "",
+  someone_typing: false,
 };
 
 export const chatSlice = createSlice({
@@ -37,6 +39,13 @@ export const chatSlice = createSlice({
     assignToken: (state, action: PayloadAction<{ token: string }>) => {
       state.token = action.payload.token;
     },
+    typing: (_state, _action) => {},
+    hideTyping: (state, _action) => {
+      state.someone_typing = false;
+    },
+    someoneTyping: (state, _action) => {
+      state.someone_typing = true;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(
@@ -54,6 +63,9 @@ export const {
   connectRoom,
   leaveRoom,
   assignToken,
+  typing,
+  hideTyping,
+  someoneTyping,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

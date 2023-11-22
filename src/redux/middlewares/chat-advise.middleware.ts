@@ -1,6 +1,6 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import io from "socket.io-client";
-import { assignToken, receiveMessage } from "../chat/chat.slice";
+import { assignToken, receiveMessage, someoneTyping } from "../chat/chat.slice";
 
 const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   const token = window.localStorage.getItem("token");
@@ -28,6 +28,10 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
     console.log(data);
   });
 
+  socket.on("someone_typing", () => {
+    store.dispatch(someoneTyping({}));
+  });
+
   return (action: AnyAction) => {
     switch (action.type) {
       case "chat/addMessage": {
@@ -49,6 +53,14 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
           ...action.payload,
           token: localStorage.getItem("token"),
         });
+        break;
+      }
+      case "chat/typing": {
+        socket.emit("typing", {
+          ...action.payload,
+          token: localStorage.getItem("token"),
+        });
+        break;
       }
     }
     return next(action);

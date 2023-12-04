@@ -6,11 +6,19 @@ export interface EChatState {
   messages: Message[];
   token: string;
   someone_typing: boolean;
+  qa: {
+    question: string | null;
+    answer: string | null;
+  };
 }
 const initialState: EChatState = {
   messages: [],
   token: "",
   someone_typing: false,
+  qa: {
+    question: null,
+    answer: null,
+  },
 };
 
 export const chatSlice = createSlice({
@@ -39,12 +47,38 @@ export const chatSlice = createSlice({
     assignToken: (state, action: PayloadAction<{ token: string }>) => {
       state.token = action.payload.token;
     },
-    typing: (_state, _action) => {},
-    hideTyping: (state, _action) => {
+    typing: (state, action: PayloadAction<{ target: string | null }>) => {
+      console.log(state, action);
+    },
+    hideTyping: (state, action: unknown) => {
+      console.log(action);
       state.someone_typing = false;
     },
-    someoneTyping: (state, _action) => {
+    someoneTyping: (state, action: unknown) => {
+      console.log(action);
       state.someone_typing = true;
+    },
+    addQA: (
+      state,
+      action: PayloadAction<{ content: string; type: "user" | "ai" | "staff" }>
+    ) => {
+      switch (action.payload.type) {
+        case "user":
+          state.qa.question = action.payload.content;
+          break;
+        case "staff":
+          state.qa.answer = action.payload.content;
+          break;
+      }
+      if (state.qa.question && state.qa.answer) {
+        // create qa
+      }
+    },
+    clearQA: (state) => {
+      state.qa = {
+        question: null,
+        answer: null,
+      };
     },
   },
   extraReducers: (builder) => {
@@ -66,6 +100,8 @@ export const {
   typing,
   hideTyping,
   someoneTyping,
+  addQA,
+  clearQA,
 } = chatSlice.actions;
 
 export default chatSlice.reducer;

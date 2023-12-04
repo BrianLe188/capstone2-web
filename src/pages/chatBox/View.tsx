@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { menuIcon, sendIcon } from "@/assets";
 import { optionChatBox } from "@/contains";
 import { useContext, useEffect, useState } from "react";
@@ -9,6 +11,7 @@ import {
   hideTyping,
   leaveRoom,
   typing,
+  clearQA,
 } from "@/redux/chat/chat.slice";
 import { chatSelector } from "@/redux/selectors";
 import Message from "@/components/message";
@@ -42,7 +45,7 @@ const ChatBox = () => {
   const [message, setMessage] = useState("");
   const dispatch = useAppDispatch();
   const [search, setSearch] = useSearchParams();
-  const { messages, someone_typing } = useAppSelector(chatSelector);
+  const { messages, someone_typing, qa } = useAppSelector(chatSelector);
   const queryTab = search.get("tab");
   const [activeTab, setActiveTab] = useState<string | null>(null);
   const [files, setFiles] = useState<Array<FileType>>([]);
@@ -54,7 +57,7 @@ const ChatBox = () => {
     let timer: any;
     if (someone_typing) {
       timer = setTimeout(() => {
-        dispatch(hideTyping({}));
+        dispatch(hideTyping());
       }, 1000);
     }
     return () => clearTimeout(timer);
@@ -104,6 +107,9 @@ const ChatBox = () => {
   };
 
   const handleSubmit = () => {
+    if (qa.answer && qa.question) {
+      dispatch(clearQA());
+    }
     dispatch(
       addMessage({
         type: EMessageType.USER,

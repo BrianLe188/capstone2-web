@@ -1,6 +1,11 @@
 import { AnyAction, Dispatch, MiddlewareAPI } from "@reduxjs/toolkit";
 import io from "socket.io-client";
-import { assignToken, receiveMessage, someoneTyping } from "../chat/chat.slice";
+import {
+  addQA,
+  assignToken,
+  receiveMessage,
+  someoneTyping,
+} from "../chat/chat.slice";
 
 const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   const token = window.localStorage.getItem("token");
@@ -18,6 +23,7 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
 
   socket.on("receive_message", (data) => {
     store.dispatch(receiveMessage(data));
+    store.dispatch(addQA({ type: data.type, content: data.content }));
   });
 
   socket.on("someone_connect_to_room", (data) => {
@@ -29,7 +35,7 @@ const chatAdvise = (store: MiddlewareAPI) => (next: Dispatch<AnyAction>) => {
   });
 
   socket.on("someone_typing", () => {
-    store.dispatch(someoneTyping({}));
+    store.dispatch(someoneTyping());
   });
 
   return (action: AnyAction) => {

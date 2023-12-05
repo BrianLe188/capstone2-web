@@ -18,8 +18,22 @@ const searchMessage = async (req: {
     }
   });
 
+const createConversation = async (req: { body: any }) =>
+  new Promise((rs, rj) => {
+    try {
+      request()
+        .post(`message/conversations`, req.body)
+        .then(({ data }) => {
+          rs(data?.data);
+        });
+    } catch (error) {
+      rj(error);
+    }
+  });
+
 const MessageService = {
   searchMessage,
+  createConversation,
 };
 
 export default MessageService;

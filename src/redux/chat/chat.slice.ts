@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Message, Prettify } from "@/utils/types";
 import { fetchMessageByTarget } from "./chat.async";
+import MessageService from "@/services/messages";
 
 export interface EChatState {
   messages: Message[];
@@ -71,7 +72,12 @@ export const chatSlice = createSlice({
           break;
       }
       if (state.qa.question && state.qa.answer) {
-        // create qa
+        MessageService.createConversation({
+          body: {
+            question: state.qa.question,
+            answer: state.qa.answer,
+          },
+        });
       }
     },
     clearQA: (state) => {
